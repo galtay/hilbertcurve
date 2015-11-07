@@ -5,7 +5,7 @@ parameters are :math:`N` (the number of dimensions, must be > 0) and :math:`p`
 (the number of iterations used in constructing the Hilbert curve, must be > 0).
 
 We consider an :math:`N`-dimensional `hypercube`_ of side length :math:`2^p`.
-This hypercube contains :math:`2^{N p}` unit hypercubes (:math:`2^p`) along
+This hypercube contains :math:`2^{N p}` unit hypercubes (:math:`2^p` along
 each dimension).  The number of unit hypercubes determine the possible
 discrete distances along the Hilbert curve (indexed from :math:`0` to
 :math:`2^{N p} - 1`).  The image below illustrates the situation for
@@ -78,11 +78,11 @@ def _bit_at(integer, offset):
     else:
         return '0'
 
-def _return_transpose(integer, pH, nD):
-    """Construct the variable ``X`` refered to in the module level docs.
+def _pack_iH_into_x(iH, pH, nD):
+    """Construct the variable `X` from `iH` (see module level docs.)
 
-    :param integer: integer to pack into `nD` pieces.
-    :type integer: ``int``
+    :param iH: integer distance along curve to pack into `nD` pieces.
+    :type iH: ``int``
     :param pH: number of iterations in Hilbert curve
     :type pH: ``int``
     :param nD: number of dimensions
@@ -92,21 +92,39 @@ def _return_transpose(integer, pH, nD):
     for ix in range(nD):
         first_offset = nD - 1 - ix
         offsets = range(first_offset, nD*pH, nD)
-        bit_str = ''.join([_bit_at(integer, offset) for offset in offsets])
+        bit_str = ''.join([_bit_at(iH, offset) for offset in offsets])
         bit_str = bit_str[::-1]
         x[ix] = int('0b' + bit_str, 2)
     return x
 
-def transpose2axes(iH, pH, nD):
-    """
-    :param ih: integer length along the hilbert curve, 0 -> 2^(p*n)-1
-    :type ih: ``int``
-    :param pH: side length of hypercube is 2^p
+def _extract_iH_from_x(x, pH, nD):
+    """Construct the variable `iH` from `X` (see module level docs.)
+
+    :param x: coordinates len(x) = nD
+    :type x: ``list`` of ``int``
+    :param pH: number of iterations in Hilbert curve
     :type pH: ``int``
     :param nD: number of dimensions
     :type nD: ``int``
     """
-    x = _return_transpose(iH, pH, nD)
+    bit_list = []
+    for ix in range(nD):
+        for ipH in reversed(range(pH)):
+            bit_list.append(_bit_at(x[ix], ipH))
+    bit_str = ''.join(bit_list)
+    ih = int('0b' + bit_str, 2)
+    return ih
+
+def transpose2axes(iH, pH, nD):
+    """
+    :param ih: integer distance along the curve
+    :type ih: ``int``
+    :param pH: side length of hypercube is 2^pH
+    :type pH: ``int``
+    :param nD: number of dimensions
+    :type nD: ``int``
+    """
+    x = _pack_iH_into_x(iH, pH, nD)
     N = 2 << (pH-1)
 
     # Gray decode by H ^ (H/2)
@@ -132,3 +150,42 @@ def transpose2axes(iH, pH, nD):
 
     # done
     return x
+
+def axes2transpose(x, pH, nD):
+    """
+    :param x: coordinates len(x) = nD
+    :type x: ``list`` of ``int``
+    :param pH: side length of hypercube is 2^p
+    :type pH: ``int``
+    :param nD: number of dimensions
+    :type nD: ``int``
+    """
+    M = 1 << (pH - 1)
+
+    # Inverse undo excess work
+    Q = M
+    while Q > 1:
+        P = Q - 1
+        for i in range(nD):
+            if x[i] & Q:
+                x[0] ^= P
+            else:
+                t = (x[0] ^ x[i]) & P
+                x[0] ^= t
+                x[i] ^= t
+        Q >>= 1
+
+    # Gray encode
+    for i in range(1,nD):
+        x[i] ^= x[i-1]
+    t = 0
+    Q = M
+    while Q > 1:
+        if x[nD-1] & Q:
+            t ^= Q - 1
+        Q >>= 1
+    for i in range(nD):
+        x[i] ^= t
+
+    ih = _extract_iH_from_x(x, pH, nD)
+    return ih

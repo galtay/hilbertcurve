@@ -7,7 +7,7 @@ parameters are :math:`N` (the number of dimensions, must be > 0) and :math:`p`
 (the number of iterations used in constructing the Hilbert curve, must be > 0).
 
 We consider an :math:`N`-dimensional `hypercube`_ of side length :math:`2^p`.
-This hypercube contains :math:`2^{N p}` unit hypercubes (:math:`2^p`) along
+This hypercube contains :math:`2^{N p}` unit hypercubes (:math:`2^p` along
 each dimension).  The number of unit hypercubes determine the possible
 discrete distances along the Hilbert curve (indexed from :math:`0` to
 :math:`2^{N p} - 1`).  The image below illustrates the situation for
