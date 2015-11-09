@@ -63,8 +63,8 @@ from that code that appears in the paper by Skilling, ::
 
 
 def _bit_at(integer, offset):
-    """Returns a string representation of the bit `offset` places from the least
-    significant bit in `integer`.
+    """Returns a string representation of the bit `offset` places from the
+    least significant bit in `integer`.
 
     :param integer: integer to inspect the bits of
     :type integer: ``int``
@@ -88,13 +88,24 @@ def _pack_iH_into_x(iH, pH, nD):
     :param nD: number of dimensions
     :type nD: ``int``
     """
-    x = [0] * nD
-    for ix in range(nD):
-        first_offset = nD - 1 - ix
-        offsets = range(first_offset, nD*pH, nD)
-        bit_str = ''.join([_bit_at(iH, offset) for offset in offsets])
-        bit_str = bit_str[::-1]
-        x[ix] = int('0b' + bit_str, 2)
+    # create bit string from iH (most to least significant from left to right)
+    iH_bit_str = ''
+    for i in range(pH * nD):
+        iH_bit_str += _bit_at(iH, i)
+    iH_bit_str = iH_bit_str[::-1]
+
+    # create bit strings for vector
+    x = [''] * nD
+    k = 0
+    for ipH in range(pH):
+        for inD in range(nD):
+            x[inD] += iH_bit_str[k]
+            k += 1
+
+    # turn bit strings into integers
+    for inD in range(nD):
+        x[inD] = int('0b' + x[inD], 2)
+
     return x
 
 def _extract_iH_from_x(x, pH, nD):
@@ -107,12 +118,22 @@ def _extract_iH_from_x(x, pH, nD):
     :param nD: number of dimensions
     :type nD: ``int``
     """
-    bit_list = []
-    for ix in range(nD):
-        for ipH in reversed(range(pH)):
-            bit_list.append(_bit_at(x[ix], ipH))
-    bit_str = ''.join(bit_list)
-    ih = int('0b' + bit_str, 2)
+    # get a list of strings representing each component of x
+    x_bit_str = [''] * nD
+    for inD in range(nD):
+        for ipH in range(pH):
+            x_bit_str[inD] += _bit_at(x[inD], ipH)
+        x_bit_str[inD] = x_bit_str[inD][::-1]
+
+    # create iH bit string
+    iH_str = ''
+    for ipH in range(pH):
+        for inD in range(nD):
+            iH_str += x_bit_str[inD][ipH]
+
+    # turn bit string into integer
+    ih = int('0b' + iH_str, 2)
+
     return ih
 
 def transpose2axes(iH, pH, nD):
