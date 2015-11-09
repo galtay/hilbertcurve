@@ -1,10 +1,11 @@
 """
 This is a module to convert between one dimensional distance along a
-`Hilbert curve`_ (:math:`d`)and N-dimensional coordinates.  The two important
-parameters are :math:`N` (the number of dimensions, must be > 0) and :math:`p`
-(the number of iterations used in constructing the Hilbert curve, must be > 0).
+`Hilbert curve`_, :math:`d`, and N-dimensional coordinates,
+:math:`(x_0, x_1, ... x_N)`.  The two important parameters are :math:`N`
+(the number of dimensions, must be > 0) and :math:`p` (the number of
+iterations used in constructing the Hilbert curve, must be > 0).
 
-We consider an :math:`N`-dimensional `hypercube`_ of side length :math:`2^p`.
+We consider an N-dimensional `hypercube`_ of side length :math:`2^p`.
 This hypercube contains :math:`2^{N p}` unit hypercubes (:math:`2^p` along
 each dimension).  The number of unit hypercubes determine the possible
 discrete distances along the Hilbert curve (indexed from :math:`0` to
@@ -15,11 +16,10 @@ discrete distances along the Hilbert curve (indexed from :math:`0` to
 
    This is the third iteration (:math:`p=3`) of the Hilbert curve in two
    (:math:`N=2`) dimensions.  Distances, :math:`d`, along the curve are
-   labeled from 0 to 63 (i.e. from 0 to :math:`2^{N p}`).  The provided
-   functions translate between :math:`N`-dimensional coordinates and the one
+   labeled from 0 to 63 (i.e. from 0 to :math:`2^{N p}-1`).  The provided
+   functions translate between N-dimensional coordinates and the one
    dimensional distance.  For example, between (:math:`x_0=4, x_1=6`) and
    :math:`d=36`.
-
 
 Reference
 =========
