@@ -1,5 +1,4 @@
-"""Test the functions in hilbert.py
-"""
+"""Test the functions in hilbert.py"""
 
 import unittest
 import hilbert
@@ -8,7 +7,7 @@ class TestBitAt(unittest.TestCase):
     """Test the function _at_bit."""
 
     def test_143(self):
-        """Assert the bits of 143 are (from least to most significant) are
+        """Assert the bits of 143 (from least to most significant) are
         11110001 followed by zeros."""
         self.assertEqual(hilbert._bit_at(143,0), '1')
         self.assertEqual(hilbert._bit_at(143,1), '1')
@@ -33,8 +32,12 @@ class TestPackIhIntoX(unittest.TestCase):
              X[1] = 0b10011 = 19
              X[2] = 0b00110 = 6
         """
-        x = hilbert._pack_iH_into_x(10590, 5, 3)
-        self.assertEqual(x, [13, 19, 6])
+        pH = 5
+        nD = 3
+        iH = 10590
+        expected_x = [13, 19, 6]
+        actual_x = hilbert._pack_iH_into_x(iH, pH, nD)
+        self.assertEqual(actual_x, expected_x)
 
 class TestExtractIhFromX(unittest.TestCase):
     """Test function _extract_iH_from_x."""
@@ -48,8 +51,12 @@ class TestExtractIhFromX(unittest.TestCase):
              X[1] = 0b10011 = 19
              X[2] = 0b00110 = 6
         """
-        iH = hilbert._extract_iH_from_x([13, 19, 6], 5, 3)
-        self.assertEqual(iH, 10590)
+        pH = 5
+        nD = 3
+        x = [13, 19, 6]
+        expected_iH = 10590
+        actual_iH = hilbert._extract_iH_from_x(x, pH, nD)
+        self.assertEqual(actual_iH, expected_iH)
 
 class TestReversibility(unittest.TestCase):
     """Test that transpose2axes and axes2transpose are consistent."""
