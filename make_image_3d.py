@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 from mpl_toolkits.mplot3d import Axes3D
@@ -29,3 +30,5 @@ ax.set_zlim(cmin, cmax)
 ax.set_xlabel('x_0', fontsize=16)
 ax.set_ylabel('x_1', fontsize=16)
 ax.set_zlabel('x_2', fontsize=16)
+
+plt.show()
