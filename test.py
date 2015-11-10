@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """Test the functions in hilbert.py"""
 
 import unittest
