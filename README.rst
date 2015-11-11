@@ -21,7 +21,7 @@ discrete distances along the Hilbert curve (indexed from :math:`0` to
    labeled from 0 to 63 (i.e. from 0 to :math:`2^{N p}-1`).  The provided
    functions translate between N-dimensional coordinates and the one
    dimensional distance.  For example, between (:math:`x_0=4, x_1=6`) and
-   :math:`d=36`.
+   :math:`h=36`.
 
 
 Reference
