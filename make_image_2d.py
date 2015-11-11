@@ -2,13 +2,13 @@ import matplotlib.pyplot as plt
 import hilbert
 
 plt.figure(figsize=(10,10))
-nD = 2 # number of dimensions
+N = 2 # number of dimensions
 
-pH = 3 # number of iterations
-npts = 2**(nD*pH)
+p = 3 # number of iterations
+npts = 2**(N*p)
 pts = []
 for i in range(npts):
-    pts.append(hilbert.transpose2axes(i, pH, nD))
+    pts.append(hilbert.coordinates_from_distance(i, p, N))
 
 connectors = range(3, npts, 4)
 for i in range(npts-1):
@@ -25,7 +25,7 @@ for i in range(npts):
     plt.scatter(pts[i][0], pts[i][1], 60, color='red')
     plt.text(pts[i][0] + 0.1, pts[i][1] + 0.1, str(i))
 
-side = 2**pH - 1
+side = 2**p - 1
 cmin = -0.5
 cmax = side + 0.5
 plt.grid()

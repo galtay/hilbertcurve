@@ -60,59 +60,62 @@ from that code that appears in the paper by Skilling, ::
 """
 
 def _binary_repr(num, width):
+    """Return a binary string representation of `num` zero padded to `width`
+    bits."""
     return format(num, 'b').zfill(width)
 
-def _pack_iH_into_x(iH, pH, nD):
-    """Construct the variable `X` from `iH` (see module level docs.)
+def _hilbert_integer_to_transpose(h, p, N):
+    """Store a hilbert integer (`h`) as its transpose (`x`).
 
-    :param iH: integer distance along curve to pack into `nD` pieces.
-    :type iH: ``int``
-    :param pH: number of iterations in Hilbert curve
-    :type pH: ``int``
-    :param nD: number of dimensions
-    :type nD: ``int``
+    :param h: integer distance along hilbert curve
+    :type h: ``int``
+    :param p: number of iterations in Hilbert curve
+    :type p: ``int``
+    :param N: number of dimensions
+    :type N: ``int``
     """
-    iH_bit_str = _binary_repr(iH, pH*nD)
-    x = [int(iH_bit_str[i::nD], 2) for i in range(nD)]
+    h_bit_str = _binary_repr(h, p*N)
+    x = [int(h_bit_str[i::N], 2) for i in range(N)]
     return x
 
-def _extract_iH_from_x(x, pH, nD):
-    """Construct the variable `iH` from `X` (see module level docs.)
+def _transpose_to_hilbert_integer(x, p, N):
+    """Restore a hilbert integer (`h`) from its transpose (`x`).
 
-    :param x: coordinates len(x) = nD
+    :param x: the transpose of a hilbert integer (N components of length p)
     :type x: ``list`` of ``int``
-    :param pH: number of iterations in Hilbert curve
-    :type pH: ``int``
-    :param nD: number of dimensions
-    :type nD: ``int``
+    :param p: number of iterations in hilbert curve
+    :type p: ``int``
+    :param N: number of dimensions
+    :type N: ``int``
     """
-    x_bit_str = [_binary_repr(x[i], pH) for i in range(nD)]
-    iH = int(''.join([y[i] for i in range(pH) for y in x_bit_str]), 2)
-    return iH
+    x_bit_str = [_binary_repr(x[i], p) for i in range(N)]
+    h = int(''.join([y[i] for i in range(p) for y in x_bit_str]), 2)
+    return h
 
-def transpose2axes(iH, pH, nD):
-    """
+def coordinates_from_distance(h, p, N):
+    """Return the coordinates for a given hilbert distance.
+
     :param ih: integer distance along the curve
     :type ih: ``int``
-    :param pH: side length of hypercube is 2^pH
-    :type pH: ``int``
-    :param nD: number of dimensions
-    :type nD: ``int``
+    :param p: side length of hypercube is 2^p
+    :type p: ``int``
+    :param N: number of dimensions
+    :type N: ``int``
     """
-    x = _pack_iH_into_x(iH, pH, nD)
-    N = 2 << (pH-1)
+    x = _hilbert_integer_to_transpose(h, p, N)
+    Z = 2 << (p-1)
 
     # Gray decode by H ^ (H/2)
-    t = x[nD-1] >> 1
-    for i in range(nD-1, 0, -1):
+    t = x[N-1] >> 1
+    for i in range(N-1, 0, -1):
         x[i] ^= x[i-1]
     x[0] ^= t
 
     # Undo excess work
     Q = 2
-    while Q != N:
+    while Q != Z:
         P = Q - 1
-        for i in range(nD-1, -1, -1):
+        for i in range(N-1, -1, -1):
             if x[i] & Q:
                 # invert
                 x[0] ^= P
@@ -126,22 +129,23 @@ def transpose2axes(iH, pH, nD):
     # done
     return x
 
-def axes2transpose(x, pH, nD):
-    """
-    :param x: coordinates len(x) = nD
+def distance_from_coordinates(x, p, N):
+    """Return the hilbert distance for a given set of coordinates.
+
+    :param x: coordinates len(x) = N
     :type x: ``list`` of ``int``
-    :param pH: side length of hypercube is 2^p
-    :type pH: ``int``
-    :param nD: number of dimensions
-    :type nD: ``int``
+    :param p: side length of hypercube is 2^p
+    :type p: ``int``
+    :param N: number of dimensions
+    :type N: ``int``
     """
-    M = 1 << (pH - 1)
+    M = 1 << (p - 1)
 
     # Inverse undo excess work
     Q = M
     while Q > 1:
         P = Q - 1
-        for i in range(nD):
+        for i in range(N):
             if x[i] & Q:
                 x[0] ^= P
             else:
@@ -151,16 +155,16 @@ def axes2transpose(x, pH, nD):
         Q >>= 1
 
     # Gray encode
-    for i in range(1,nD):
+    for i in range(1, N):
         x[i] ^= x[i-1]
     t = 0
     Q = M
     while Q > 1:
-        if x[nD-1] & Q:
+        if x[N-1] & Q:
             t ^= Q - 1
         Q >>= 1
-    for i in range(nD):
+    for i in range(N):
         x[i] ^= t
 
-    ih = _extract_iH_from_x(x, pH, nD)
-    return ih
+    h = _transpose_to_hilbert_integer(x, p, N)
+    return h
