@@ -95,8 +95,8 @@ def _transpose_to_hilbert_integer(x, p, N):
 def coordinates_from_distance(h, p, N):
     """Return the coordinates for a given hilbert distance.
 
-    :param ih: integer distance along the curve
-    :type ih: ``int``
+    :param h: integer distance along the curve
+    :type h: ``int``
     :param p: side length of hypercube is 2^p
     :type p: ``int``
     :param N: number of dimensions
