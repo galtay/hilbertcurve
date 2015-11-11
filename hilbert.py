@@ -54,29 +54,13 @@ from that code that appears in the paper by Skilling, ::
 // Author:    John Skilling  20 Apr 2001 to 11 Oct 2003
 
 
-
 .. _Hilbert curve: https://en.wikipedia.org/wiki/Hilbert_curve
 .. _hypercube: https://en.wikipedia.org/wiki/Hypercube
-
 .. _mapping-n-dimensional-value-to-a-point-on-hilbert-curve: http://stackoverflow.com/questions/499166/mapping-n-dimensional-value-to-a-point-on-hilbert-curve/10384110#10384110
 """
 
-
-def _bit_at(integer, offset):
-    """Returns a string representation of the bit `offset` places from the
-    least significant bit in `integer`.
-
-    :param integer: integer to inspect the bits of
-    :type integer: ``int``
-    :param offset: offset from the least significant bit
-    :type offset: ``int``
-    """
-    mask = 1 << offset
-    bitwise_and = integer & (1<<offset)
-    if bitwise_and > 0:
-        return '1'
-    else:
-        return '0'
+def _binary_repr(num, width):
+    return format(num, 'b').zfill(width)
 
 def _pack_iH_into_x(iH, pH, nD):
     """Construct the variable `X` from `iH` (see module level docs.)
@@ -88,24 +72,8 @@ def _pack_iH_into_x(iH, pH, nD):
     :param nD: number of dimensions
     :type nD: ``int``
     """
-    # create bit string from iH (most to least significant from left to right)
-    iH_bit_str = ''
-    for i in range(pH * nD):
-        iH_bit_str += _bit_at(iH, i)
-    iH_bit_str = iH_bit_str[::-1]
-
-    # create bit strings for vector
-    x = [''] * nD
-    k = 0
-    for ipH in range(pH):
-        for inD in range(nD):
-            x[inD] += iH_bit_str[k]
-            k += 1
-
-    # turn bit strings into integers
-    for inD in range(nD):
-        x[inD] = int('0b' + x[inD], 2)
-
+    iH_bit_str = _binary_repr(iH, pH*nD)
+    x = [int(iH_bit_str[i::nD], 2) for i in range(nD)]
     return x
 
 def _extract_iH_from_x(x, pH, nD):
@@ -118,23 +86,9 @@ def _extract_iH_from_x(x, pH, nD):
     :param nD: number of dimensions
     :type nD: ``int``
     """
-    # get a list of strings representing each component of x
-    x_bit_str = [''] * nD
-    for inD in range(nD):
-        for ipH in range(pH):
-            x_bit_str[inD] += _bit_at(x[inD], ipH)
-        x_bit_str[inD] = x_bit_str[inD][::-1]
-
-    # create iH bit string
-    iH_str = ''
-    for ipH in range(pH):
-        for inD in range(nD):
-            iH_str += x_bit_str[inD][ipH]
-
-    # turn bit string into integer
-    ih = int('0b' + iH_str, 2)
-
-    return ih
+    x_bit_str = [_binary_repr(x[i], pH) for i in range(nD)]
+    iH = int(''.join([y[i] for i in range(pH) for y in x_bit_str]), 2)
+    return iH
 
 def transpose2axes(iH, pH, nD):
     """

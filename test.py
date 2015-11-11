@@ -4,23 +4,6 @@
 import unittest
 import hilbert
 
-class TestBitAt(unittest.TestCase):
-    """Test the function _at_bit."""
-
-    def test_143(self):
-        """Assert the bits of 143 (from least to most significant) are
-        11110001 followed by zeros."""
-        self.assertEqual(hilbert._bit_at(143,0), '1')
-        self.assertEqual(hilbert._bit_at(143,1), '1')
-        self.assertEqual(hilbert._bit_at(143,2), '1')
-        self.assertEqual(hilbert._bit_at(143,3), '1')
-        self.assertEqual(hilbert._bit_at(143,4), '0')
-        self.assertEqual(hilbert._bit_at(143,5), '0')
-        self.assertEqual(hilbert._bit_at(143,6), '0')
-        self.assertEqual(hilbert._bit_at(143,7), '1')
-        for i in range(8, 40):
-            self.assertEqual(hilbert._bit_at(13,i), '0')
-
 class TestPackIhIntoX(unittest.TestCase):
     """Test function _pack_iH_into_x."""
 
