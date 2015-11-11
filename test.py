@@ -63,14 +63,7 @@ class TestReversibility(unittest.TestCase):
     """Test that transpose2axes and axes2transpose are consistent."""
 
     def test_reversibility(self):
-        """Assert that a 15 bit integer is extracted from a 3-d vector properly
-             10590 (0b010100101011110)
-                      ABCDEFGHIJKLMNO
-
-             X[0] = 0b01101 = 13
-             X[1] = 0b10011 = 19
-             X[2] = 0b00110 = 6
-        """
+        """Assert transpose2axes and axes2transpose are inverse operations."""
         nD = 3
         pH = 5
         n_iH = 2**(nD * pH)
