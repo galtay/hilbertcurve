@@ -9,7 +9,7 @@ class TestHilbertIntegerToTranspose(unittest.TestCase):
 
     def test_10590(self):
         """Assert that a 15 bit hilber integer is correctly transposed into
-        a 3-d vector properly ...
+        a 3-d vector ...
 
                       ABCDEFGHIJKLMNO
              10590 (0b010100101011110)

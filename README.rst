@@ -3,7 +3,7 @@ Introduction
 
 This is a module to convert between one dimensional distance along a
 `Hilbert curve`_, :math:`h`, and N-dimensional coordinates,
-:math:`(x_0, x_1, ... x_N)`.  The two important parameters are :math:`N`
+:math:`(x_0, x_1, ... x_N-1)`.  The two important parameters are :math:`N`
 (the number of dimensions, must be > 0) and :math:`p` (the number of
 iterations used in constructing the Hilbert curve, must be > 0).
 
