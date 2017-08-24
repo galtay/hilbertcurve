@@ -58,113 +58,112 @@ from that code that appears in the paper by Skilling, ::
 .. _hypercube: https://en.wikipedia.org/wiki/Hypercube
 .. _mapping-n-dimensional-value-to-a-point-on-hilbert-curve: http://stackoverflow.com/questions/499166/mapping-n-dimensional-value-to-a-point-on-hilbert-curve/10384110#10384110
 """
+class Hilbert:
 
-def _binary_repr(num, width):
-    """Return a binary string representation of `num` zero padded to `width`
-    bits."""
-    return format(num, 'b').zfill(width)
+    def __init__(self, hilbertItterations, dimensions):
+        """ Initialize the hypercube with the size and dimensions """
+        self.p = hilbertItterations
+        self.N = dimensions
 
-def _hilbert_integer_to_transpose(h, p, N):
-    """Store a hilbert integer (`h`) as its transpose (`x`).
+    def _binary_repr(self, num, width):
+        """Return a binary string representation of `num` zero padded to `width`
+        bits."""
+        return format(num, 'b').zfill(width)
 
-    :param h: integer distance along hilbert curve
-    :type h: ``int``
-    :param p: number of iterations in Hilbert curve
-    :type p: ``int``
-    :param N: number of dimensions
-    :type N: ``int``
-    """
-    h_bit_str = _binary_repr(h, p*N)
-    x = [int(h_bit_str[i::N], 2) for i in range(N)]
-    return x
+    def _hilbert_integer_to_transpose(self, h, p, N):
+        """Store a hilbert integer (`h`) as its transpose (`x`).
 
-def _transpose_to_hilbert_integer(x, p, N):
-    """Restore a hilbert integer (`h`) from its transpose (`x`).
+        :param h: integer distance along hilbert curve
+        :type h: ``int``
+        :param p: number of iterations in Hilbert curve
+        :type p: ``int``
+        :param N: number of dimensions
+        :type N: ``int``
+        """
+        h_bit_str = self._binary_repr(h, p*N)
+        x = [int(h_bit_str[i::N], 2) for i in range(N)]
+        return x
 
-    :param x: the transpose of a hilbert integer (N components of length p)
-    :type x: ``list`` of ``int``
-    :param p: number of iterations in hilbert curve
-    :type p: ``int``
-    :param N: number of dimensions
-    :type N: ``int``
-    """
-    x_bit_str = [_binary_repr(x[i], p) for i in range(N)]
-    h = int(''.join([y[i] for i in range(p) for y in x_bit_str]), 2)
-    return h
+    def _transpose_to_hilbert_integer(self, x, p, N):
+        """Restore a hilbert integer (`h`) from its transpose (`x`).
 
-def coordinates_from_distance(h, p, N):
-    """Return the coordinates for a given hilbert distance.
+        :param x: the transpose of a hilbert integer (N components of length p)
+        :type x: ``list`` of ``int``
+        :param p: number of iterations in hilbert curve
+        :type p: ``int``
+        :param N: number of dimensions
+        :type N: ``int``
+        """
+        x_bit_str = [self._binary_repr(x[i], p) for i in range(N)]
+        h = int(''.join([y[i] for i in range(p) for y in x_bit_str]), 2)
+        return h
 
-    :param h: integer distance along the curve
-    :type h: ``int``
-    :param p: side length of hypercube is 2^p
-    :type p: ``int``
-    :param N: number of dimensions
-    :type N: ``int``
-    """
-    x = _hilbert_integer_to_transpose(h, p, N)
-    Z = 2 << (p-1)
+    def coordinates_from_distance(self, h):
+        """Return the coordinates for a given hilbert distance.
 
-    # Gray decode by H ^ (H/2)
-    t = x[N-1] >> 1
-    for i in range(N-1, 0, -1):
-        x[i] ^= x[i-1]
-    x[0] ^= t
+        :param h: integer distance along the curve
+        :type h: ``int``
+        """
 
-    # Undo excess work
-    Q = 2
-    while Q != Z:
-        P = Q - 1
-        for i in range(N-1, -1, -1):
-            if x[i] & Q:
-                # invert
-                x[0] ^= P
-            else:
-                # excchange
-                t = (x[0] ^ x[i]) & P
-                x[0] ^= t
-                x[i] ^= t
-        Q <<= 1
+        x = self._hilbert_integer_to_transpose(h, self.p, self.N)
+        Z = 2 << (self.p-1)
 
-    # done
-    return x
+        # Gray decode by H ^ (H/2)
+        t = x[self.N-1] >> 1
+        for i in range(self.N-1, 0, -1):
+            x[i] ^= x[i-1]
+        x[0] ^= t
 
-def distance_from_coordinates(x, p, N):
-    """Return the hilbert distance for a given set of coordinates.
+        # Undo excess work
+        Q = 2
+        while Q != Z:
+            P = Q - 1
+            for i in range(self.N-1, -1, -1):
+                if x[i] & Q:
+                    # invert
+                    x[0] ^= P
+                else:
+                    # excchange
+                    t = (x[0] ^ x[i]) & P
+                    x[0] ^= t
+                    x[i] ^= t
+            Q <<= 1
 
-    :param x: coordinates len(x) = N
-    :type x: ``list`` of ``int``
-    :param p: side length of hypercube is 2^p
-    :type p: ``int``
-    :param N: number of dimensions
-    :type N: ``int``
-    """
-    M = 1 << (p - 1)
+        # done
+        return x
 
-    # Inverse undo excess work
-    Q = M
-    while Q > 1:
-        P = Q - 1
-        for i in range(N):
-            if x[i] & Q:
-                x[0] ^= P
-            else:
-                t = (x[0] ^ x[i]) & P
-                x[0] ^= t
-                x[i] ^= t
-        Q >>= 1
+    def distance_from_coordinates(self, x):
+        """Return the hilbert distance for a given set of coordinates.
 
-    # Gray encode
-    for i in range(1, N):
-        x[i] ^= x[i-1]
-    t = 0
-    Q = M
-    while Q > 1:
-        if x[N-1] & Q:
-            t ^= Q - 1
-        Q >>= 1
-    for i in range(N):
-        x[i] ^= t
+        :param x: coordinates len(x) = N
+        :type x: ``list`` of ``int``
+        """
+        M = 1 << (self.p - 1)
 
-    h = _transpose_to_hilbert_integer(x, p, N)
-    return h
+        # Inverse undo excess work
+        Q = M
+        while Q > 1:
+            P = Q - 1
+            for i in range(self.N):
+                if x[i] & Q:
+                    x[0] ^= P
+                else:
+                    t = (x[0] ^ x[i]) & P
+                    x[0] ^= t
+                    x[i] ^= t
+            Q >>= 1
+
+        # Gray encode
+        for i in range(1, self.N):
+            x[i] ^= x[i-1]
+        t = 0
+        Q = M
+        while Q > 1:
+            if x[self.N-1] & Q:
+                t ^= Q - 1
+            Q >>= 1
+        for i in range(self.N):
+            x[i] ^= t
+
+        h = self._transpose_to_hilbert_integer(x, self.p, self.N)
+        return h
