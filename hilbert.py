@@ -102,6 +102,10 @@ def coordinates_from_distance(h, p, N):
     :param N: number of dimensions
     :type N: ``int``
     """
+    max_h = 2**(p * N) - 1
+    if h > max_h:
+        raise ValueError('h={} is greater than 2**(p*N)-1={}'.format(h, max_h))
+
     x = _hilbert_integer_to_transpose(h, p, N)
     Z = 2 << (p-1)
 
@@ -139,6 +143,16 @@ def distance_from_coordinates(x, p, N):
     :param N: number of dimensions
     :type N: ``int``
     """
+    if len(x) != N:
+        raise ValueError('x={} must have N={} dimensions'.format(x, N))
+
+    max_x = 2**p - 1
+    any_over = any(elx > max_x for elx in x)
+    if any_over:
+        raise ValueError(
+            'invalid coordinate input x={}.  one or more dimensions have a '
+            'value greater than 2**p-1={}'.format(x, max_x))
+
     M = 1 << (p - 1)
 
     # Inverse undo excess work
