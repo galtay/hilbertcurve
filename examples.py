@@ -6,7 +6,8 @@ import hilbert
 p = 1
 N = 2
 for ii in range(4):
-    print(hilbert.coordinates_from_distance(ii, p, N))
+    print('coords(h={},p={},N={}) = {}'.format(
+        ii, p, N, hilbert.coordinates_from_distance(ii, p, N)))
 
 
 # due to the magic of arbitrarily large integers in
@@ -16,3 +17,4 @@ p = 512
 N = 10
 ii = 1234567891011121314151617181920
 coords = hilbert.coordinates_from_distance(ii, p, N)
+print('coords(h={},p={},N={}) = {}'.format(ii, p, N, coords))
