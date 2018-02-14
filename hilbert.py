@@ -59,126 +59,136 @@ from that code that appears in the paper by Skilling, ::
 .. _mapping-n-dimensional-value-to-a-point-on-hilbert-curve: http://stackoverflow.com/questions/499166/mapping-n-dimensional-value-to-a-point-on-hilbert-curve/10384110#10384110
 """
 
+
 def _binary_repr(num, width):
     """Return a binary string representation of `num` zero padded to `width`
     bits."""
     return format(num, 'b').zfill(width)
 
-def _hilbert_integer_to_transpose(h, p, N):
-    """Store a hilbert integer (`h`) as its transpose (`x`).
 
-    :param h: integer distance along hilbert curve
-    :type h: ``int``
-    :param p: number of iterations in Hilbert curve
-    :type p: ``int``
-    :param N: number of dimensions
-    :type N: ``int``
-    """
-    h_bit_str = _binary_repr(h, p*N)
-    x = [int(h_bit_str[i::N], 2) for i in range(N)]
-    return x
+class HilbertCurve:
 
-def _transpose_to_hilbert_integer(x, p, N):
-    """Restore a hilbert integer (`h`) from its transpose (`x`).
+    def __init__(self, p, n):
+        """Initialize a hilbert curve with,
 
-    :param x: the transpose of a hilbert integer (N components of length p)
-    :type x: ``list`` of ``int``
-    :param p: number of iterations in hilbert curve
-    :type p: ``int``
-    :param N: number of dimensions
-    :type N: ``int``
-    """
-    x_bit_str = [_binary_repr(x[i], p) for i in range(N)]
-    h = int(''.join([y[i] for i in range(p) for y in x_bit_str]), 2)
-    return h
+        Args:
+            p (int): iterations to use in the hilbert curve
+            n (int): number of dimensions
+        """
+        self.p = p
+        self.n = n
 
-def coordinates_from_distance(h, p, N):
-    """Return the coordinates for a given hilbert distance.
+    def _hilbert_integer_to_transpose(self, h):
+        """Store a hilbert integer (`h`) as its transpose (`x`).
 
-    :param h: integer distance along the curve
-    :type h: ``int``
-    :param p: side length of hypercube is 2^p
-    :type p: ``int``
-    :param N: number of dimensions
-    :type N: ``int``
-    """
-    max_h = 2**(p * N) - 1
-    if h > max_h:
-        raise ValueError('h={} is greater than 2**(p*N)-1={}'.format(h, max_h))
+        Args:
+            h (int): integer distance along hilbert curve
 
-    x = _hilbert_integer_to_transpose(h, p, N)
-    Z = 2 << (p-1)
+        Returns:
+            x (list): transpose of h (n components of length p)
+        """
+        h_bit_str = _binary_repr(h, self.p*self.n)
+        x = [int(h_bit_str[i::self.n], 2) for i in range(self.n)]
+        return x
 
-    # Gray decode by H ^ (H/2)
-    t = x[N-1] >> 1
-    for i in range(N-1, 0, -1):
-        x[i] ^= x[i-1]
-    x[0] ^= t
+    def _transpose_to_hilbert_integer(self, x):
+        """Restore a hilbert integer (`h`) from its transpose (`x`).
 
-    # Undo excess work
-    Q = 2
-    while Q != Z:
-        P = Q - 1
-        for i in range(N-1, -1, -1):
-            if x[i] & Q:
-                # invert
-                x[0] ^= P
-            else:
-                # excchange
-                t = (x[0] ^ x[i]) & P
-                x[0] ^= t
-                x[i] ^= t
-        Q <<= 1
+        Args:
+            x (list): transpose of h (n components of length p)
 
-    # done
-    return x
+        Returns:
+            h (int): integer distance along hilbert curve
+        """
+        x_bit_str = [_binary_repr(x[i], self.p) for i in range(self.n)]
+        h = int(''.join([y[i] for i in range(self.p) for y in x_bit_str]), 2)
+        return h
 
-def distance_from_coordinates(x, p, N):
-    """Return the hilbert distance for a given set of coordinates.
+    def coordinates_from_distance(self, h):
+        """Return the coordinates for a given hilbert distance.
 
-    :param x: coordinates len(x) = N
-    :type x: ``list`` of ``int``
-    :param p: side length of hypercube is 2^p
-    :type p: ``int``
-    :param N: number of dimensions
-    :type N: ``int``
-    """
-    if len(x) != N:
-        raise ValueError('x={} must have N={} dimensions'.format(x, N))
+        Args:
+            h (int): integer distance along hilbert curve
 
-    max_x = 2**p - 1
-    any_over = any(elx > max_x for elx in x)
-    if any_over:
-        raise ValueError(
-            'invalid coordinate input x={}.  one or more dimensions have a '
-            'value greater than 2**p-1={}'.format(x, max_x))
+        Returns:
+            x (list): transpose of h (n components of length p)
+        """
+        max_h = 2**(self.p * self.n) - 1
+        if h > max_h:
+            raise ValueError('h={} is greater than 2**(p*N)-1={}'.format(h, max_h))
 
-    M = 1 << (p - 1)
+        x = self._hilbert_integer_to_transpose(h)
+        Z = 2 << (self.p-1)
 
-    # Inverse undo excess work
-    Q = M
-    while Q > 1:
-        P = Q - 1
-        for i in range(N):
-            if x[i] & Q:
-                x[0] ^= P
-            else:
-                t = (x[0] ^ x[i]) & P
-                x[0] ^= t
-                x[i] ^= t
-        Q >>= 1
+        # Gray decode by H ^ (H/2)
+        t = x[self.n-1] >> 1
+        for i in range(self.n-1, 0, -1):
+            x[i] ^= x[i-1]
+        x[0] ^= t
 
-    # Gray encode
-    for i in range(1, N):
-        x[i] ^= x[i-1]
-    t = 0
-    Q = M
-    while Q > 1:
-        if x[N-1] & Q:
-            t ^= Q - 1
-        Q >>= 1
-    for i in range(N):
-        x[i] ^= t
+        # Undo excess work
+        Q = 2
+        while Q != Z:
+            P = Q - 1
+            for i in range(self.n-1, -1, -1):
+                if x[i] & Q:
+                    # invert
+                    x[0] ^= P
+                else:
+                    # exchange
+                    t = (x[0] ^ x[i]) & P
+                    x[0] ^= t
+                    x[i] ^= t
+            Q <<= 1
 
-    h = _transpose_to_hilbert_integer(x, p, N)
-    return h
+        # done
+        return x
+
+    def distance_from_coordinates(self, x):
+        """Return the hilbert distance for a given set of coordinates.
+
+        Args:
+            x (list): transpose of h (n components of length p)
+
+        Returns:
+            h (int): integer distance along hilbert curve
+        """
+        if len(x) != self.n:
+            raise ValueError('x={} must have N={} dimensions'.format(x, self.n))
+
+        max_x = 2**self.p - 1
+        any_over = any(elx > max_x for elx in x)
+        if any_over:
+            raise ValueError(
+                'invalid coordinate input x={}.  one or more dimensions have a '
+                'value greater than 2**p-1={}'.format(x, max_x))
+
+        M = 1 << (self.p - 1)
+
+        # Inverse undo excess work
+        Q = M
+        while Q > 1:
+            P = Q - 1
+            for i in range(self.n):
+                if x[i] & Q:
+                    x[0] ^= P
+                else:
+                    t = (x[0] ^ x[i]) & P
+                    x[0] ^= t
+                    x[i] ^= t
+            Q >>= 1
+
+        # Gray encode
+        for i in range(1, self.n):
+            x[i] ^= x[i-1]
+        t = 0
+        Q = M
+        while Q > 1:
+            if x[self.n-1] & Q:
+                t ^= Q - 1
+            Q >>= 1
+        for i in range(self.n):
+            x[i] ^= t
+
+        h = self._transpose_to_hilbert_integer(x)
+        return h
