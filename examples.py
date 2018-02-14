@@ -17,6 +17,6 @@ for ii in range(4):
 p = 512
 N = 10
 hilbert_curve = hilbert.HilbertCurve(p, N)
-ii = 1234567891011121314151617181920
+ii = 123456789101112131415161718192021222324252627282930
 coords = hilbert_curve.coordinates_from_distance(ii)
 print('coords(h={},p={},N={}) = {}'.format(ii, p, N, coords))

@@ -157,8 +157,7 @@ class HilbertCurve:
             raise ValueError('x={} must have N={} dimensions'.format(x, self.n))
 
         max_x = 2**self.p - 1
-        any_over = any(elx > max_x for elx in x)
-        if any_over:
+        if any(elx > max_x for elx in x):
             raise ValueError(
                 'invalid coordinate input x={}.  one or more dimensions have a '
                 'value greater than 2**p-1={}'.format(x, max_x))
