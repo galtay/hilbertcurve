@@ -25,9 +25,10 @@ class TestHilbertIntegerToTranspose(unittest.TestCase):
         """
         p = 5
         N = 3
+        hilbert_curve = hilbert.HilbertCurve(p, N)
         h = 10590
         expected_x = [13, 19, 6]
-        actual_x = hilbert._hilbert_integer_to_transpose(h, p, N)
+        actual_x = hilbert_curve._hilbert_integer_to_transpose(h)
         self.assertEqual(actual_x, expected_x)
 
 class TestTransposeToHilbertInteger(unittest.TestCase):
@@ -51,9 +52,10 @@ class TestTransposeToHilbertInteger(unittest.TestCase):
         """
         p = 5
         N = 3
+        hilbert_curve = hilbert.HilbertCurve(p, N)
         x = [13, 19, 6]
         expected_h = 10590
-        actual_h = hilbert._transpose_to_hilbert_integer(x, p, N)
+        actual_h = hilbert_curve._transpose_to_hilbert_integer(x)
         self.assertEqual(actual_h, expected_h)
 
 class TestReversibility(unittest.TestCase):
@@ -64,10 +66,11 @@ class TestReversibility(unittest.TestCase):
         are inverse operations."""
         N = 3
         p = 5
+        hilbert_curve = hilbert.HilbertCurve(p, N)
         n_h = 2**(N * p)
         for h in range(n_h):
-            x = hilbert.coordinates_from_distance(h, p, N)
-            h_test = hilbert.distance_from_coordinates(x, p, N)
+            x = hilbert_curve.coordinates_from_distance(h)
+            h_test = hilbert_curve.distance_from_coordinates(x)
             self.assertEqual(h, h_test)
 
 
