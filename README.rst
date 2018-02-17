@@ -24,6 +24,16 @@ discrete distances along the Hilbert curve (indexed from :math:`0` to
    :math:`h=36`.
 
 
+.. figure:: nD=3_p=3.png
+
+   This is the third iteration (:math:`p=3`) of the Hilbert curve in three
+   (:math:`N=3`) dimensions.  Distances, :math:`h`, along the curve are
+   labeled from 0 to 63 (i.e. from 0 to :math:`2^{N p}-1`).  The provided
+   functions translate between N-dimensional coordinates and the one
+   dimensional distance.  For example, between (:math:`x_0=4, x_1=6`) and
+   :math:`h=36`.
+
+
 Reference
 =========
 
