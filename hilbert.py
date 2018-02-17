@@ -85,7 +85,8 @@ class HilbertCurve:
             h (int): integer distance along hilbert curve
 
         Returns:
-            x (list): transpose of h (n components of length p)
+            x (list): transpose of h
+                      (n components with values between 0 and 2**p-1)
         """
         h_bit_str = _binary_repr(h, self.p*self.n)
         x = [int(h_bit_str[i::self.n], 2) for i in range(self.n)]
@@ -95,7 +96,8 @@ class HilbertCurve:
         """Restore a hilbert integer (`h`) from its transpose (`x`).
 
         Args:
-            x (list): transpose of h (n components of length p)
+            x (list): transpose of h
+                      (n components with values between 0 and 2**p-1)
 
         Returns:
             h (int): integer distance along hilbert curve
@@ -111,7 +113,8 @@ class HilbertCurve:
             h (int): integer distance along hilbert curve
 
         Returns:
-            x (list): transpose of h (n components of length p)
+            x (list): transpose of h
+                      (n components with values between 0 and 2**p-1)
         """
         max_h = 2**(self.p * self.n) - 1
         if h > max_h:
@@ -148,7 +151,8 @@ class HilbertCurve:
         """Return the hilbert distance for a given set of coordinates.
 
         Args:
-            x (list): transpose of h (n components of length p)
+            x (list): transpose of h
+                      (n components with values between 0 and 2**p-1)
 
         Returns:
             h (int): integer distance along hilbert curve
