@@ -47,9 +47,10 @@ which points out a typo in the source code of the paper.  The Skilling code
 provides two functions ``TransposetoAxes`` and ``AxestoTranspose``.  In this
 case, Transpose refers to a specific packing of the integer that represents
 distance along the Hilbert curve (see below for details) and
-Axes refer to the N-dimensional coordinates.  Below is an excerpt of the docs
-from that code that appears in the paper by Skilling, ::
+Axes refer to the N-dimensional coordinates.  Below is an excerpt from the
+documentation of Skilling's code,
 
+```
 //+++++++++++++++++++++++++++ PUBLIC-DOMAIN SOFTWARE ++++++++++++++++++++++++++
 // Functions: TransposetoAxes  AxestoTranspose
 // Purpose:   Transform in-place between Hilbert transpose and geometrical axes
@@ -62,7 +63,7 @@ from that code that appears in the paper by Skilling, ::
 //                          high  low                    0------ X[0]
 //            Axes are stored conveniently as b-bit integers.
 // Author:    John Skilling  20 Apr 2001 to 11 Oct 2003
-
+```
 
 
 [1]: https://en.wikipedia.org/wiki/Hilbert_curve
