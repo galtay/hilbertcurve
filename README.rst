@@ -34,6 +34,9 @@ discrete distances along the Hilbert curve (indexed from :math:`0` to
    :math:`h=36`.
 
 
+[![Alt text](https://img.youtube.com/vi/RrfO1hlWmrw/0.jpg)](https://www.youtube.com/watch?v=RrfO1hlWmrw)
+
+
 Reference
 =========
 

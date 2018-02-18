@@ -34,16 +34,16 @@ def init():
     return fig,
 
 def animate(iazim):
-    ax.view_init(azim=iazim)
     print(iazim)
+    ax.view_init(azim=0.5 * iazim)
     return fig,
 
 
 anim = animation.FuncAnimation(fig, animate, init_func=init,
-                               frames=360, interval=200, blit=False)
+                               frames=720, interval=200, blit=False)
 
-writer = animation.FFMpegWriter(fps=60)
-anim.save('nD=3_p=3.gif', writer=writer)
+writer = animation.FFMpegWriter(fps=30)
+anim.save('nD=3_p=3.mp4', writer=writer)
 
 #writer = 'imagemagick'
 #anim.save('nD=3_p=3.gif', writer=writer, fps=60)
