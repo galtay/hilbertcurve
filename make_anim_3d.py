@@ -26,8 +26,18 @@ def init():
     s = 1
     cmap = cm.nipy_spectral
     for i in range(0, npts-s, s):
+        if (i+1) % 8 == 0:
+            linestyle='--'
+            linewidth=1
+            alpha=0.4
+        else:
+            linestyle = '-'
+            linewidth=2
+            alpha=0.7
         ax.plot(x[i:i+s+1], y[i:i+s+1], z[i:i+s+1],
-                linewidth=2.0, alpha=0.6, color=cmap(i/(npts-s)))
+                linestyle=linestyle, linewidth=linewidth, alpha=alpha,
+                color=cmap(i/(npts-s)))
+
     ax.set_xlabel('x_0', fontsize=16)
     ax.set_ylabel('x_1', fontsize=16)
     ax.set_zlabel('x_2', fontsize=16)

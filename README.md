@@ -28,7 +28,7 @@ An animation of the same case in 3-D is available on YouTube.  To watch the vide
 click the link below.  Once the YouTube video loads, you can right click on it and
 turn "Loop" on to watch the curve rotate continuously.
 
-[![3-D Hilbert Curve Animation](https://img.youtube.com/vi/RrfO1hlWmrw/0.jpg)](https://www.youtube.com/watch?v=RrfO1hlWmrw)
+[![3-D Hilbert Curve Animation](https://img.youtube.com/vi/TfJEJidwkBQ/0.jpg)](https://www.youtube.com/watch?v=TfJEJidwkBQ)
 
 
 Reference
