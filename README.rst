@@ -1,6 +1,8 @@
 Introduction
 ============
 
+[![](https://img.youtube.com/vi/RrfO1hlWmrw/0.jpg)](https://www.youtube.com/watch?v=RrfO1hlWmrw)
+
 This is a module to convert between one dimensional distance along a
 `Hilbert curve`_, :math:`h`, and N-dimensional coordinates,
 :math:`(x_0, x_1, ... x_N-1)`.  The two important parameters are :math:`N`
