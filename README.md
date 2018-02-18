@@ -1,14 +1,6 @@
 Introduction
 ============
 
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=RrfO1hlWmrw
-" target="_blank"><img src="http://img.youtube.com/vi/RrfO1hlWmrw/0.jpg"
-alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
-
-
-
-[![](http://img.youtube.com/vi/RrfO1hlWmrw/0.jpg)](http://www.youtube.com/watch?v=RrfO1hlWmrw)
-
 This is a module to convert between one dimensional distance along a
 `Hilbert curve`_, :math:`h`, and N-dimensional coordinates,
 :math:`(x_0, x_1, ... x_N-1)`.  The two important parameters are :math:`N`
@@ -32,7 +24,7 @@ discrete distances along the Hilbert curve (indexed from :math:`0` to
    :math:`h=36`.
 
 
-An animation of the same case in 3-D is available on YouTube.
+An animation of the same case in 3-D is available on YouTube (click on the thumbnail below).
 
 [![3-D Hilbert Curve Animation](https://img.youtube.com/vi/RrfO1hlWmrw/0.jpg)](https://www.youtube.com/watch?v=RrfO1hlWmrw)
 
