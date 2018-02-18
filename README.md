@@ -68,4 +68,4 @@ from that code that appears in the paper by Skilling, ::
 .. _Hilbert curve: https://en.wikipedia.org/wiki/Hilbert_curve
 .. _hypercube: https://en.wikipedia.org/wiki/Hypercube
 
-.. _mapping-n-dimensional-value-to-a-point-on-hilbert-curve: http://stackoverflow.com/questions/499166/mapping-n-dimensional-value-to-a-point-on-hilbert-curve/10384110#10384110
+.. _mapping-n-dimensional-value-to-a-point-on-hilbert-curve: http://stackoverflow.com/questions/499166/mapping-n-dimensional-value-to-a-point-on-hilbert-curve
