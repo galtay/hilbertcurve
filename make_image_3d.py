@@ -1,31 +1,30 @@
 #!/usr/bin/env python
 import matplotlib.pyplot as plt
 import matplotlib as mpl
+from matplotlib import cm
 from mpl_toolkits.mplot3d import Axes3D
+import numpy as np
 import hilbert
 
 N = 3
-p = 4
+p = 3
+hc = hilbert.HilbertCurve(p, N)
 npts = 2**(N*p)
 pts = []
 for i in range(npts):
-    pts.append(hilbert.coordinates_from_distance(i, p, N))
+    pts.append(hc.coordinates_from_distance(i))
 
 x = [pt[0] for pt in pts]
 y = [pt[1] for pt in pts]
 z = [pt[2] for pt in pts]
 
-fig = plt.figure()
+fig = plt.figure(figsize=(10,10))
 ax = fig.gca(projection='3d')
-ax.plot(x, y, z, linewidth=2.0, alpha=0.6)
-
-side = 2**p - 1
-cmin = -0.5
-cmax = side + 0.5
-
-ax.set_xlim(cmin, cmax)
-ax.set_ylim(cmin, cmax)
-ax.set_zlim(cmin, cmax)
+cmap = cm.nipy_spectral
+s = 1
+for i in range(0, npts-s, s):
+    ax.plot(x[i:i+s+1], y[i:i+s+1], z[i:i+s+1],
+            linewidth=2.0, alpha=0.6, color=cmap(i/(npts-s)))
 
 ax.set_xlabel('x_0', fontsize=16)
 ax.set_ylabel('x_1', fontsize=16)
