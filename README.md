@@ -14,7 +14,7 @@ discrete distances along the Hilbert curve (indexed from :math:`0` to
 :math:`2^{N p} - 1`).  The image below illustrates the situation for
 :math:`N=2` and :math:`p=3`.
 
-.. figure:: nD=2_p=3.png
+![](nD=2_p=3.png)
 
    This is the third iteration (:math:`p=3`) of the Hilbert curve in two
    (:math:`N=2`) dimensions.  Distances, :math:`h`, along the curve are
