@@ -2,26 +2,26 @@ Introduction
 ============
 
 This is a module to convert between one dimensional distance along a
-`Hilbert curve`_, :math:`h`, and N-dimensional coordinates,
-:math:`(x_0, x_1, ... x_N-1)`.  The two important parameters are :math:`N`
-(the number of dimensions, must be > 0) and :math:`p` (the number of
+[Hilbert curve][1], `h`, and N-dimensional coordinates,
+`(x_0, x_1, ... x_N-1)`.  The two important parameters are `N`
+(the number of dimensions, must be > 0) and `p` (the number of
 iterations used in constructing the Hilbert curve, must be > 0).
 
-We consider an N-dimensional `hypercube`_ of side length :math:`2^p`.
-This hypercube contains :math:`2^{N p}` unit hypercubes (:math:`2^p` along
+We consider an N-dimensional [hypercube][2] of side length `2^p`.
+This hypercube contains `2^{N p}` unit hypercubes (`2^p` along
 each dimension).  The number of unit hypercubes determine the possible
-discrete distances along the Hilbert curve (indexed from :math:`0` to
-:math:`2^{N p} - 1`).  The image below illustrates the situation for
-:math:`N=2` and :math:`p=3`.
+discrete distances along the Hilbert curve (indexed from `0` to
+`2^{N p} - 1`).  The image below illustrates the situation for
+`N=2` and `p=3`.
 
 ![](nD=2_p=3.png)
 
-   This is the third iteration (:math:`p=3`) of the Hilbert curve in two
-   (:math:`N=2`) dimensions.  Distances, :math:`h`, along the curve are
-   labeled from 0 to 63 (i.e. from 0 to :math:`2^{N p}-1`).  The provided
+   This is the third iteration (`p=3`) of the Hilbert curve in two
+   (`N=2`) dimensions.  Distances, `h`, along the curve are
+   labeled from 0 to 63 (i.e. from 0 to `2^{N p}-1`).  The provided
    functions translate between N-dimensional coordinates and the one
-   dimensional distance.  For example, between (:math:`x_0=4, x_1=6`) and
-   :math:`h=36`.
+   dimensional distance.  For example, between (`x_0=4, x_1=6`) and
+   `h=36`.
 
 
 An animation of the same case in 3-D is available on YouTube.  To watch the video,
@@ -41,7 +41,7 @@ This module is based on the C code provided in the 2004 article
 
 I was also helped by the discussion in the following stackoverflow post,
 
-  - `mapping-n-dimensional-value-to-a-point-on-hilbert-curve`_
+  - [mapping-n-dimensional-value-to-a-point-on-hilbert-curve][3]
 
 which points out a typo in the source code of the paper.  The Skilling code
 provides two functions ``TransposetoAxes`` and ``AxestoTranspose``.  In this
@@ -65,7 +65,7 @@ from that code that appears in the paper by Skilling, ::
 
 
 
-.. _Hilbert curve: https://en.wikipedia.org/wiki/Hilbert_curve
-.. _hypercube: https://en.wikipedia.org/wiki/Hypercube
+[1]: https://en.wikipedia.org/wiki/Hilbert_curve
+[2]: https://en.wikipedia.org/wiki/Hypercube
 
-.. _mapping-n-dimensional-value-to-a-point-on-hilbert-curve: http://stackoverflow.com/questions/499166/mapping-n-dimensional-value-to-a-point-on-hilbert-curve
+[3]: http://stackoverflow.com/questions/499166/mapping-n-dimensional-value-to-a-point-on-hilbert-curve
