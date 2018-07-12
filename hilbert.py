@@ -147,16 +147,17 @@ class HilbertCurve:
         # done
         return x
 
-    def distance_from_coordinates(self, x):
+    def distance_from_coordinates(self, x_in):
         """Return the hilbert distance for a given set of coordinates.
 
         Args:
-            x (list): transpose of h
-                      (n components with values between 0 and 2**p-1)
+            x_in (list): transpose of h
+                         (n components with values between 0 and 2**p-1)
 
         Returns:
             h (int): integer distance along hilbert curve
         """
+        x = list(x_in)
         if len(x) != self.n:
             raise ValueError('x={} must have N={} dimensions'.format(x, self.n))
 
