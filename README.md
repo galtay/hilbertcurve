@@ -11,7 +11,7 @@ This hypercube contains `2^{N p}` unit hypercubes (`2^p` along
 each dimension).  The number of unit hypercubes determine the possible
 discrete distances along the Hilbert curve (indexed from `0` to
 `2^{N p} - 1`).  The image below illustrates the situation for
-`N=2` and `p=3`.
+the first three iterations in two dimensions.
 
 ![](nD=2_p=3.png)
 
