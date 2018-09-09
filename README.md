@@ -10,7 +10,28 @@ We consider an N-dimensional [hypercube][2] of side length `2^p`.
 This hypercube contains `2^{N p}` unit hypercubes (`2^p` along
 each dimension).  The number of unit hypercubes determine the possible
 discrete distances along the Hilbert curve (indexed from `0` to
-`2^{N p} - 1`).  The image below illustrates the situation for
+`2^{N p} - 1`).
+
+
+# Quickstart
+
+```python
+In [1]: from hilbert import HilbertCurve
+In [2]: p=1; N=2
+In [3]: hilbert_curve = HilbertCurve(p, N)
+In [4]: for ii in range(4):
+   ...:     coords = hilbert_curve.coordinates_from_distance(ii)
+   ...:     print(f'coords(h={ii}) = {coords}')
+coords(h=0)=[0, 0]
+coords(h=1)=[0, 1]
+coords(h=2)=[1, 1]
+coords(h=3)=[1, 0]
+```
+
+
+# Visuals
+
+The image below illustrates the situation for
 the first three iterations in two dimensions.
 
 ![](nD=2_p=3.png)
