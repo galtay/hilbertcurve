@@ -65,8 +65,9 @@ print(f'coords = {coords}')
 
 The calculations above represent the 512th iteration of the Hilbert curve in 10 dimensions.
 The maximum value along any coordinate axis is an integer with 155 digits and the maximum
-distance along the curve is an integer with 1542 digits.  For comparison, an estimate of the
-number of atoms in the observable universe is 10**82 (i.e. an integer with 83 digits).
+distance along the curve is an integer with 1542 digits.  For comparison,
+[an estimate of the number of atoms in the observable universe](https://www.universetoday.com/36302/atoms-in-the-universe/)
+is 10**82 (i.e. an integer with 83 digits).
 
 # Visuals
 
