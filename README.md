@@ -16,17 +16,19 @@ discrete distances along the Hilbert curve (indexed from `0` to
 # Quickstart
 
 ```python
-In [1]: from hilbert import HilbertCurve
-In [2]: p=1; N=2
-In [3]: hilbert_curve = HilbertCurve(p, N)
-In [4]: for ii in range(4):
-   ...:     coords = hilbert_curve.coordinates_from_distance(ii)
-   ...:     print(f'coords(h={ii}) = {coords}')
-coords(h=0)=[0, 0]
-coords(h=1)=[0, 1]
-coords(h=2)=[1, 1]
-coords(h=3)=[1, 0]
+from hilbert import HilbertCurve
+p=1; N=2
+hilbert_curve = HilbertCurve(p, N)
+for ii in range(4):
+    coords = hilbert_curve.coordinates_from_distance(ii)
+    print(f'coords(h={ii}) = {coords}')
 ```
+
+    coords(h=0)=[0, 0]
+    coords(h=1)=[0, 1]
+    coords(h=2)=[1, 1]
+    coords(h=3)=[1, 0]
+
 
 
 # Visuals
