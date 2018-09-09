@@ -1,5 +1,4 @@
-Introduction
-============
+# Introduction
 
 This is a module to convert between one dimensional distance along a
 [Hilbert curve][1], `h`, and N-dimensional coordinates,
@@ -16,12 +15,18 @@ discrete distances along the Hilbert curve (indexed from `0` to
 
 ![](nD=2_p=3.png)
 
-   This is the third iteration (`p=3`) of the Hilbert curve in two
-   (`N=2`) dimensions.  Distances, `h`, along the curve are
-   labeled from 0 to 63 (i.e. from 0 to `2^{N p}-1`).  The provided
-   functions translate between N-dimensional coordinates and the one
+   The figure above shows the first three iterations of the Hilbert
+   curve in two (`N=2`) dimensions.  The `p=1` iteration is shown
+   in red, `p=2` in blue, and `p=3` in black.
+
+   For the `p=3` iteration, distances, `h`, along the curve are
+   labeled from 0 to 63 (i.e. from 0 to `2^{N p}-1`).  The `hilbert` module
+   provides methods to translate between N-dimensional coordinates and one
    dimensional distance.  For example, between (`x_0=4, x_1=6`) and
    `h=36`.
+
+   Note that the `p=1` and `p=2` iterations have been scaled and translated
+   to the coordinate system of the `p=3` iteration.
 
 
 An animation of the same case in 3-D is available on YouTube.  To watch the video,
@@ -31,8 +36,7 @@ turn "Loop" on to watch the curve rotate continuously.
 [![3-D Hilbert Curve Animation](https://img.youtube.com/vi/TfJEJidwkBQ/0.jpg)](https://www.youtube.com/watch?v=TfJEJidwkBQ)
 
 
-Reference
-=========
+# Reference
 
 This module is based on the C code provided in the 2004 article
 "Programming the Hilbert Curve" by John Skilling,
@@ -68,5 +72,4 @@ documentation of Skilling's code,
 
 [1]: https://en.wikipedia.org/wiki/Hilbert_curve
 [2]: https://en.wikipedia.org/wiki/Hypercube
-
 [3]: http://stackoverflow.com/questions/499166/mapping-n-dimensional-value-to-a-point-on-hilbert-curve
