@@ -18,13 +18,11 @@ discrete distances along the Hilbert curve (indexed from `0` to
    The figure above shows the first three iterations of the Hilbert
    curve in two (`N=2`) dimensions.  The `p=1` iteration is shown
    in red, `p=2` in blue, and `p=3` in black.
-
    For the `p=3` iteration, distances, `h`, along the curve are
    labeled from 0 to 63 (i.e. from 0 to `2^{N p}-1`).  The `hilbert` module
    provides methods to translate between N-dimensional coordinates and one
    dimensional distance.  For example, between (`x_0=4, x_1=6`) and
    `h=36`.
-
    Note that the `p=1` and `p=2` iterations have been scaled and translated
    to the coordinate system of the `p=3` iteration.
 
