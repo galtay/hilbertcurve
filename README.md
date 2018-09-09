@@ -15,6 +15,8 @@ discrete distances along the Hilbert curve (indexed from `0` to
 
 # Quickstart
 
+## Basics
+
 You can calculate coordinates given distances along a hilbert curve,
 
 ```python
@@ -44,6 +46,22 @@ for coords in [[0,0], [0,1], [1,1], [1,0]]:
     distance(x=[1, 1]) = 2
     distance(x=[1, 0]) = 3
 
+
+## (Absurdly) Large Integers
+
+Due to the magic of
+[arbitrarily large integers in Python](https://docs.python.org/3.3/library/stdtypes.html#numeric-types-int-float-complex),
+these calculations can be done with ... well ... arbitrarily large integers!
+
+```python
+p = 512; N = 10
+hilbert_curve = HilbertCurve(p, N)
+ii = 123456789101112131415161718192021222324252627282930
+coords = hilbert_curve.coordinates_from_distance(ii)
+print(f'coords = {coords}')
+```
+
+    coords = [121075, 67332, 67326, 108879, 26637, 43346, 23848, 1551, 68130, 84004]
 
 
 # Visuals
