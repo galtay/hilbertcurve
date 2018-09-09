@@ -48,8 +48,6 @@ for coords in [[0,0], [0,1], [1,1], [1,0]]:
 
 # Visuals
 
-The image below illustrates the situation for
-the first three iterations in two dimensions.
 
 ![](nD=2_p=3.png)
 
