@@ -6,8 +6,8 @@ This is a package to convert between one dimensional distance along a
 `Hilbert curve`_, :math:`h`, and :math:`N`-dimensional coordinates,
 :math:`(x_0, x_1, ... x_N-1)`.  There are two important parameters,
 
-      * :math:`N` -- the number of dimensions (must be > 0)
-      * :math:`p` -- the number of iterations used in constructing the Hilbert curve (must be > 0)
+* :math:`N` -- the number of dimensions (must be > 0)
+* :math:`p` -- the number of iterations used in constructing the Hilbert curve (must be > 0)
 
 We consider an :math:`N`-dimensional `hypercube`_ of side length :math:`2^p`.
 This hypercube contains :math:`2^{N p}` unit hypercubes (:math:`2^p` along
@@ -106,11 +106,11 @@ Reference
 This module is based on the C code provided in the 2004 article
 "Programming the Hilbert Curve" by John Skilling,
 
-  * http://adsabs.harvard.edu/abs/2004AIPC..707..381S
+* http://adsabs.harvard.edu/abs/2004AIPC..707..381S
 
 I was also helped by the discussion in the following stackoverflow post,
 
-  * `mapping-n-dimensional-value-to-a-point-on-hilbert-curve`_
+* `mapping-n-dimensional-value-to-a-point-on-hilbert-curve`_
 
 which points out a typo in the source code of the paper.  The Skilling code
 provides two functions ``TransposetoAxes`` and ``AxestoTranspose``.  In this
