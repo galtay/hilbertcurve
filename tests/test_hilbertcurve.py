@@ -2,7 +2,7 @@
 """Test the functions in hilbert.py"""
 
 import unittest
-import hilbert
+from hilbertcurve.hilbertcurve import HilbertCurve
 
 class TestHilbertIntegerToTranspose(unittest.TestCase):
     """Test hilbert_integer_to_transpose."""
@@ -25,7 +25,7 @@ class TestHilbertIntegerToTranspose(unittest.TestCase):
         """
         p = 5
         N = 3
-        hilbert_curve = hilbert.HilbertCurve(p, N)
+        hilbert_curve = HilbertCurve(p, N)
         h = 10590
         expected_x = [13, 19, 6]
         actual_x = hilbert_curve._hilbert_integer_to_transpose(h)
@@ -52,7 +52,7 @@ class TestTransposeToHilbertInteger(unittest.TestCase):
         """
         p = 5
         N = 3
-        hilbert_curve = hilbert.HilbertCurve(p, N)
+        hilbert_curve = HilbertCurve(p, N)
         x = [13, 19, 6]
         expected_h = 10590
         actual_h = hilbert_curve._transpose_to_hilbert_integer(x)
@@ -66,7 +66,7 @@ class TestReversibility(unittest.TestCase):
         are inverse operations."""
         N = 3
         p = 5
-        hilbert_curve = hilbert.HilbertCurve(p, N)
+        hilbert_curve = HilbertCurve(p, N)
         n_h = 2**(N * p)
         for h in range(n_h):
             x = hilbert_curve.coordinates_from_distance(h)

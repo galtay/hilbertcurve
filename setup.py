@@ -54,7 +54,7 @@ setup(
     packages=find_packages(exclude=["tests*"]),
     install_requires=[],
     extras_require={
-        "dev": ["sphinx", "sphinx_rtd_theme", "sphinx_autodoc_typehints"]
+        "dev": ["sphinx", "sphinx_rtd_theme", "sphinx_autodoc_typehints", "pytest"]
     },
     classifiers=[
         "Intended Audience :: Developers",
