@@ -20,6 +20,12 @@ discrete distances along the Hilbert curve (indexed from 0 to
 Quickstart
 ==========
 
+Install the package with pip,
+
+.. code-block:: bash
+
+  pip install hilbertcurve
+
 You can calculate coordinates given distances along a hilbert curve,
 
 .. code-block:: python
