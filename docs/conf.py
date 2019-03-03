@@ -23,12 +23,12 @@ project = "hilbertcurve"
 copyright = "2019, Gabriel Altay"
 author = "Gabriel Altay"
 
-import hilbertcurve
+
 
 # The short X.Y version
-version = hilbertcurve.__version__
+version = 1.0.0
 # The full version, including alpha/beta/rc tags
-release = hilbertcurve.__version__
+release = 1.0.0
 
 
 # -- General configuration ---------------------------------------------------
