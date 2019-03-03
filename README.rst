@@ -78,7 +78,7 @@ Visuals
 =======
 
 
-.. figure:: nD=2_p=3.png
+.. figure:: n2_p3.png
 
    The figure above shows the first three iterations of the Hilbert
    curve in two (:math:`N=2`) dimensions.  The :math:`p=1` iteration is shown
