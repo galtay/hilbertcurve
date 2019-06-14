@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-import hilbert
+from hilbertcurve.hilbertcurve import HilbertCurve
 
 plt.figure(figsize=(10,10))
 N = 2 # number of dimensions
@@ -18,7 +18,7 @@ offset = 0
 dx = 0.5
 
 for p in range(pmax, 0, -1):
-    hc = hilbert.HilbertCurve(p, N)
+    hc = HilbertCurve(p, N)
     sidep = 2**p
 
     npts = 2**(N*p)
