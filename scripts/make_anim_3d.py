@@ -4,11 +4,11 @@ from matplotlib import cm
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import animation
 import numpy as np
-import hilbert
+from hilbertcurve.hilbertcurve import HilbertCurve
 
 N = 3
 p = 3
-hc = hilbert.HilbertCurve(p, N)
+hc = HilbertCurve(p, N)
 npts = 2**(N*p)
 pts = []
 for i in range(npts):

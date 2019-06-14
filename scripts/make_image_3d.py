@@ -1,14 +1,13 @@
-#!/usr/bin/env python
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 from matplotlib import cm
 from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
-import hilbert
+from hilbertcurve.hilbertcurve import HilbertCurve
 
 N = 3
 p = 3
-hc = hilbert.HilbertCurve(p, N)
+hc = HilbertCurve(p, N)
 npts = 2**(N*p)
 pts = []
 for i in range(npts):
@@ -25,7 +24,7 @@ s = 1
 for i in range(0, npts-s, s):
     if (i+1) % 8 == 0:
         linestyle='--'
-        linewidth=1
+        linewidth=2
         alpha=0.4
     else:
         linestyle = '-'
