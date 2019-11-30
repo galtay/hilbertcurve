@@ -3,17 +3,17 @@ Introduction
 ============
 
 This is a package to convert between one dimensional distance along a
-`Hilbert curve`_, :math:`h`, and :math:`N`-dimensional coordinates,
-:math:`(x_0, x_1, ... x_N-1)`.  There are two important parameters,
+`Hilbert curve`_, ``h``, and ``N``-dimensional coordinates,
+``(x_0, x_1, ... x_N-1)``.  There are two important parameters,
 
-* :math:`N` -- the number of dimensions (must be > 0)
-* :math:`p` -- the number of iterations used in constructing the Hilbert curve (must be > 0)
+* ``N`` -- the number of dimensions (must be > 0)
+* ``p`` -- the number of iterations used in constructing the Hilbert curve (must be > 0)
 
-We consider an :math:`N`-dimensional `hypercube`_ of side length :math:`2^p`.
-This hypercube contains :math:`2^{N p}` unit hypercubes (:math:`2^p` along
+We consider an ``N``-dimensional `hypercube`_ of side length ``2^p``.
+This hypercube contains ``2^{N p}`` unit hypercubes (``2^p`` along
 each dimension).  The number of unit hypercubes determine the possible
 discrete distances along the Hilbert curve (indexed from 0 to
-:math:`2^{N p} - 1`).
+``2^{N p} - 1``).
 
 
 ==========
@@ -77,7 +77,7 @@ The calculations above represent the 512th iteration of the Hilbert curve in 10 
 The maximum value along any coordinate axis is an integer with 155 digits and the maximum
 distance along the curve is an integer with 1542 digits.  For comparison,
 `an estimate of the number of atoms in the observable universe`_
-is :math:`10^{82}` (i.e. an integer with 83 digits).
+is ``10^{82}`` (i.e. an integer with 83 digits).
 
 =======
 Visuals
@@ -87,14 +87,14 @@ Visuals
 .. figure:: n2_p3.png
 
    The figure above shows the first three iterations of the Hilbert
-   curve in two (:math:`N=2`) dimensions.  The :math:`p=1` iteration is shown
-   in red, :math:`p=2` in blue, and :math:`p=3` in black.
-   For the :math:`p=3` iteration, distances, :math:`h`, along the curve are
-   labeled from 0 to 63 (i.e. from 0 to :math:`2^{N p}-1`).  This package
-   provides methods to translate between :math:`N`-dimensional coordinates and one
-   dimensional distance.  For example, between (:math:`x_0=4, x_1=6`) and
-   :math:`h=36`.  Note that the :math:`p=1` and :math:`p=2` iterations have been
-   scaled and translated to the coordinate system of the :math:`p=3` iteration.
+   curve in two (``N=2``) dimensions.  The ``p=1`` iteration is shown
+   in red, ``p=2`` in blue, and ``p=3`` in black.
+   For the ``p=3`` iteration, distances, ``h``, along the curve are
+   labeled from 0 to 63 (i.e. from 0 to ``2^{N p}-1``).  This package
+   provides methods to translate between ``N``-dimensional coordinates and one
+   dimensional distance.  For example, between (``x_0=4, x_1=6``) and
+   ``h=36``.  Note that the ``p=1`` and ``p=2`` iterations have been
+   scaled and translated to the coordinate system of the ``p=3`` iteration.
 
 
 An animation of the same case in 3-D is available on YouTube.  To watch the video,
