@@ -11,9 +11,10 @@ each dimension).  The number of unit hypercubes determine the possible
 discrete distances along the Hilbert curve (indexed from :math:`0` to
 :math:`2^{N p} - 1`).
 """
+from typing import Iterable, List
 
 
-def _binary_repr(num, width):
+def _binary_repr(num: int, width:int) -> str:
     """Return a binary string representation of `num` zero padded to `width`
     bits."""
     return format(num, 'b').zfill(width)
@@ -21,11 +22,11 @@ def _binary_repr(num, width):
 
 class HilbertCurve:
 
-    def __init__(self, p, n):
+    def __init__(self, p: int, n: int) -> None:
         """Initialize a hilbert curve with,
 
         Args:
-            p (int): iterations to use in the hilbert curve
+            p (int): iterations to use in constructing the hilbert curve
             n (int): number of dimensions
         """
         if p <= 0:
@@ -41,7 +42,7 @@ class HilbertCurve:
         # maximum coordinate value in any dimension
         self.max_x = 2**self.p - 1
 
-    def _hilbert_integer_to_transpose(self, h):
+    def _hilbert_integer_to_transpose(self, h: int) -> List[int]:
         """Store a hilbert integer (`h`) as its transpose (`x`).
 
         Args:
@@ -55,7 +56,7 @@ class HilbertCurve:
         x = [int(h_bit_str[i::self.n], 2) for i in range(self.n)]
         return x
 
-    def _transpose_to_hilbert_integer(self, x):
+    def _transpose_to_hilbert_integer(self, x: List[int]) -> int:
         """Restore a hilbert integer (`h`) from its transpose (`x`).
 
         Args:
@@ -69,7 +70,7 @@ class HilbertCurve:
         h = int(''.join([y[i] for i in range(self.p) for y in x_bit_str]), 2)
         return h
 
-    def coordinates_from_distance(self, h):
+    def coordinates_from_distance(self, h: int) -> List[int]:
         """Return the coordinates for a given hilbert distance.
 
         Args:
@@ -111,7 +112,7 @@ class HilbertCurve:
         # done
         return x
 
-    def distance_from_coordinates(self, x_in):
+    def distance_from_coordinates(self, x_in: List[int]) -> int:
         """Return the hilbert distance for a given set of coordinates.
 
         Args:

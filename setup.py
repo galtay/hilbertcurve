@@ -62,5 +62,5 @@ setup(
         "Programming Language :: Python :: 3 :: Only",
     ],
     keywords="fractal space-filling-curves hilbert hilbert-curve python python3 wikidata parser",
-    python_requires=">=3.5",
+    python_requires=">=3.6",
 )

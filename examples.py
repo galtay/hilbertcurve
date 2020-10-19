@@ -1,8 +1,23 @@
 from hilbertcurve.hilbertcurve import HilbertCurve
 
-# we can go from distance along a curve to coordinates
-# in 2 dimensions with p=1 there are only 4 locations on the curve
-# [0, 0], [0, 1], [1, 1], [1, 0]
+# When using a single iteration (p=1) in 2 dimensions (N=2) there are only 4
+# locations on the curve
+# distance | coordinates
+# 0        | [0, 0]
+# 1        | [0, 1]
+# 2        | [1, 1]
+# 3        | [1, 0]
+
+
+# calculate distances along a hilbert curve given coordinates
+p = 1
+N = 2
+hilbert_curve = HilbertCurve(p, N)
+for coords in [[0,0], [0,1], [1,1], [1,0]]:
+    dist = hilbert_curve.distance_from_coordinates(coords)
+    print(f'distance(x={coords}) = {dist}')
+
+# calculate coordinates given distances along a hilbert curve
 p = 1
 N = 2
 hilbert_curve = HilbertCurve(p, N)
@@ -20,3 +35,8 @@ hilbert_curve = HilbertCurve(p, N)
 ii = 123456789101112131415161718192021222324252627282930
 coords = hilbert_curve.coordinates_from_distance(ii)
 print('coords(h={},p={},N={}) = {}'.format(ii, p, N, coords))
+
+
+coords = [121075, 67332, 67326, 108879, 26637, 43346, 23848, 1551, 68130, 84004]
+dist = hilbert_curve.distance_from_coordinates(coords)
+print(f'distance(x={coords}) = {dist}')
