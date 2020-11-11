@@ -1,3 +1,6 @@
+.. image:: https://travis-ci.com/galtay/hilbertcurve.svg?branch=develop
+    :target: https://travis-ci.com/galtay/hilbertcurve
+
 ============
 Introduction
 ============
