@@ -1,5 +1,6 @@
 """Test the functions in hilbert.py"""
 
+import pytest
 import unittest
 from hilbertcurve.hilbertcurve import HilbertCurve
 
@@ -72,10 +73,10 @@ class TestReversibility(unittest.TestCase):
             h_test = hilbert_curve.distance_from_coordinates(x)
             self.assertEqual(h, h_test)
 
-class TestIntConversion(unittest.TestCase):
-    """Test floating point input that equal integers."""
+class TestInitIntConversion(unittest.TestCase):
+    """Test __init__ conversion of floating point to integers."""
 
-    def test_n_pt_oh(self):
+    def test_pt_oh(self):
         """Assert x.0 goes to x"""
         n = 3.0
         n_int = 3
@@ -84,8 +85,6 @@ class TestIntConversion(unittest.TestCase):
         self.assertTrue(isinstance(hilbert_curve.n, int))
         self.assertEqual(hilbert_curve.n, n_int)
 
-    def test_p_pt_oh(self):
-        """Assert x.0 goes to x"""
         n = 3
         p_int = 5
         p = 5.0
@@ -93,6 +92,32 @@ class TestIntConversion(unittest.TestCase):
         self.assertTrue(isinstance(hilbert_curve.p, int))
         self.assertEqual(hilbert_curve.p, p_int)
 
+    def test_pt_one(self):
+        """Assert x.1 raises an error"""
+        n = 3
+        p = 5.1
+        with pytest.raises(TypeError):
+            hilbert_curve = HilbertCurve(p, n)
+
+        n = 3.1
+        p = 5
+        with pytest.raises(TypeError):
+            hilbert_curve = HilbertCurve(p, n)
+
+class TestInitBounds(unittest.TestCase):
+    """Test __init__ bounds on n and p."""
+
+    def test_pt_one(self):
+        """Assert x.1 raises an error"""
+        n = 0
+        p = 5
+        with pytest.raises(ValueError):
+            hilbert_curve = HilbertCurve(p, n)
+
+        n = 3
+        p = 0
+        with pytest.raises(ValueError):
+            hilbert_curve = HilbertCurve(p, n)
 
 
 if __name__ == '__main__':
