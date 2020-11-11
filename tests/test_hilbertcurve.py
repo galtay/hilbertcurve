@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """Test the functions in hilbert.py"""
 
 import unittest
@@ -24,8 +23,8 @@ class TestHilbertIntegerToTranspose(unittest.TestCase):
              X[2] = 0b00110 = 6
         """
         p = 5
-        N = 3
-        hilbert_curve = HilbertCurve(p, N)
+        n = 3
+        hilbert_curve = HilbertCurve(p, n)
         h = 10590
         expected_x = [13, 19, 6]
         actual_x = hilbert_curve._hilbert_integer_to_transpose(h)
@@ -51,8 +50,8 @@ class TestTransposeToHilbertInteger(unittest.TestCase):
              X[2] = 0b00110 = 6
         """
         p = 5
-        N = 3
-        hilbert_curve = HilbertCurve(p, N)
+        n = 3
+        hilbert_curve = HilbertCurve(p, n)
         x = [13, 19, 6]
         expected_h = 10590
         actual_h = hilbert_curve._transpose_to_hilbert_integer(x)
@@ -64,14 +63,36 @@ class TestReversibility(unittest.TestCase):
     def test_reversibility(self):
         """Assert coordinates_from_distance and distance_from_coordinates
         are inverse operations."""
-        N = 3
+        n = 3
         p = 5
-        hilbert_curve = HilbertCurve(p, N)
-        n_h = 2**(N * p)
+        hilbert_curve = HilbertCurve(p, n)
+        n_h = 2**(n * p)
         for h in range(n_h):
             x = hilbert_curve.coordinates_from_distance(h)
             h_test = hilbert_curve.distance_from_coordinates(x)
             self.assertEqual(h, h_test)
+
+class TestIntConversion(unittest.TestCase):
+    """Test floating point input that equal integers."""
+
+    def test_n_pt_oh(self):
+        """Assert x.0 goes to x"""
+        n = 3.0
+        n_int = 3
+        p = 5
+        hilbert_curve = HilbertCurve(p, n)
+        self.assertTrue(isinstance(hilbert_curve.n, int))
+        self.assertEqual(hilbert_curve.n, n_int)
+
+    def test_p_pt_oh(self):
+        """Assert x.0 goes to x"""
+        n = 3
+        p_int = 5
+        p = 5.0
+        hilbert_curve = HilbertCurve(p, n)
+        self.assertTrue(isinstance(hilbert_curve.p, int))
+        self.assertEqual(hilbert_curve.p, p_int)
+
 
 
 if __name__ == '__main__':
