@@ -1,3 +1,5 @@
+[![develop Build Status](https://travis-ci.com/galtay/hilbertcurve.svg?branch=develop)](https://travis-ci.com/galtay/hilbertcurve)
+
 ============
 Introduction
 ============
