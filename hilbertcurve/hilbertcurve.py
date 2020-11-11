@@ -29,11 +29,11 @@ class HilbertCurve:
             p (int): iterations to use in constructing the hilbert curve
             n (int): number of dimensions
         """
-        if not p % 1:
+        if (p % 1) != 0:
             raise TypeError("p is not an integer and can not be converted")
-        if not n % 1:
+        if (n % 1) != 0:
             raise TypeError("n is not an integer and can not be converted")
-        
+
         if p <= 0:
             raise ValueError('p must be > 0')
         if n <= 0:
@@ -86,7 +86,7 @@ class HilbertCurve:
                       (n components with values between 0 and 2**p-1)
         """
 
-        if  not h % 1:
+        if (h % 1) != 0:
             raise TypeError("h is not an integer and can not be converted")
         if h > self.max_h:
             raise ValueError('h must be < 2**(p*N)-1={}')
@@ -145,12 +145,12 @@ class HilbertCurve:
             raise ValueError(
                 'invalid coordinate input x={}.  one or more dimensions have a '
                 'value less than 0'.format(x))
-        
-        if any(not elx % 1 for elx in x):
+
+        if any((elx % 1) != 0 for elx in x):
             raise TypeError(
                 'invalid coordinate input x={}. one or more dimensions is not '
-                'an integer and can not be converted'
-                
+                'an integer and can not be converted'.format(x))
+
         for i in range(len(x)): x[i] = int(x[i])
 
         M = 1 << (self.p - 1)
