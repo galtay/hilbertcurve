@@ -14,7 +14,7 @@ discrete distances along the Hilbert curve (indexed from :math:`0` to
 from typing import Iterable, List
 
 
-def _binary_repr(num: int, width:int) -> str:
+def _binary_repr(num: int, width: int) -> str:
     """Return a binary string representation of `num` zero padded to `width`
     bits."""
     return format(num, 'b').zfill(width)
@@ -29,12 +29,17 @@ class HilbertCurve:
             p (int): iterations to use in constructing the hilbert curve
             n (int): number of dimensions
         """
+        if (p % 1) != 0:
+            raise TypeError("p is not an integer and can not be converted")
+        if (n % 1) != 0:
+            raise TypeError("n is not an integer and can not be converted")
+
         if p <= 0:
             raise ValueError('p must be > 0')
         if n <= 0:
             raise ValueError('n must be > 0')
-        self.p = p
-        self.n = n
+        self.p = int(p)
+        self.n = int(n)
 
         # maximum distance along curve
         self.max_h = 2**(self.p * self.n) - 1
@@ -80,10 +85,15 @@ class HilbertCurve:
             x (list): transpose of h
                       (n components with values between 0 and 2**p-1)
         """
+
+        if (h % 1) != 0:
+            raise TypeError("h is not an integer and can not be converted")
         if h > self.max_h:
-            raise ValueError('h={} is greater than 2**(p*N)-1={}'.format(h, self.max_h))
+            raise ValueError('h must be < 2**(p*N)-1={}')
         if h < 0:
-            raise ValueError('h={} but must be > 0'.format(h))
+            raise ValueError('h must be > 0')
+
+        h = int(h)
 
         x = self._hilbert_integer_to_transpose(h)
         Z = 2 << (self.p-1)
@@ -135,6 +145,13 @@ class HilbertCurve:
             raise ValueError(
                 'invalid coordinate input x={}.  one or more dimensions have a '
                 'value less than 0'.format(x))
+
+        if any((elx % 1) != 0 for elx in x):
+            raise TypeError(
+                'invalid coordinate input x={}. one or more dimensions is not '
+                'an integer and can not be converted'.format(x))
+
+        for i in range(len(x)): x[i] = int(x[i])
 
         M = 1 << (self.p - 1)
 
