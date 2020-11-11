@@ -38,13 +38,16 @@ class HilbertCurve:
             raise ValueError('p must be > 0')
         if n <= 0:
             raise ValueError('n must be > 0')
+
         self.p = int(p)
         self.n = int(n)
 
-        # maximum distance along curve
+        # minimum and maximum distance along curve
+        self.min_h = 0
         self.max_h = 2**(self.p * self.n) - 1
 
-        # maximum coordinate value in any dimension
+        # minimum and maximum coordinate value in any dimension
+        self.min_x = 0
         self.max_x = 2**self.p - 1
 
     def _hilbert_integer_to_transpose(self, h: int) -> List[int]:
@@ -162,7 +165,7 @@ class HilbertCurve:
                 'invalid coordinate input x={}.  one or more dimensions have a '
                 'value greater than 2**p-1={}'.format(x, self.max_x))
 
-        if any(elx < 0 for elx in x):
+        if any(elx < self.min_x for elx in x):
             raise ValueError(
                 'invalid coordinate input x={}.  one or more dimensions have a '
                 'value less than 0'.format(x))
