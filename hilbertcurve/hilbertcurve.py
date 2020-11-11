@@ -22,25 +22,27 @@ def _binary_repr(num: int, width: int) -> str:
 
 class HilbertCurve:
 
-    def __init__(self, p: int, n: int) -> None:
+    def __init__(self, p: Union[int, float], n: Union[int, float]) -> None:
         """Initialize a hilbert curve with,
 
         Args:
-            p (int): iterations to use in constructing the hilbert curve
-            n (int): number of dimensions
+            p (int or float): iterations to use in constructing the hilbert curve.
+                              if float, must satisfy p % 1 = 0
+            n (int or float): number of dimensions.
+                              if float must satisfy n % 1 = 0
         """
         if (p % 1) != 0:
             raise TypeError("p is not an integer and can not be converted")
         if (n % 1) != 0:
             raise TypeError("n is not an integer and can not be converted")
 
-        if p <= 0:
-            raise ValueError('p must be > 0')
-        if n <= 0:
-            raise ValueError('n must be > 0')
-
         self.p = int(p)
         self.n = int(n)
+
+        if self.p <= 0:
+            raise ValueError('p must be > 0 (got p={} as input)'.format(p))
+        if self.n <= 0:
+            raise ValueError('n must be > 0 (got n={} as input)'.format(n))
 
         # minimum and maximum distance along curve
         self.min_h = 0
