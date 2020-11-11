@@ -108,7 +108,7 @@ class TestInitBounds(unittest.TestCase):
     """Test __init__ bounds on n and p."""
 
     def test_pt_one(self):
-        """Assert x.1 raises an error"""
+        """Assert x=0 raises an error"""
         n = 0
         p = 5
         with pytest.raises(ValueError):
