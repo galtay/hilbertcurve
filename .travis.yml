@@ -1,4 +1,6 @@
 language: python
+  - "3.6"
+  - "3.7"
   - "3.8"
 # command to install dependencies
 install:
