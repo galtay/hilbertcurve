@@ -11,7 +11,7 @@ each dimension).  The number of unit hypercubes determine the possible
 discrete distances along the Hilbert curve (indexed from :math:`0` to
 :math:`2^{N p} - 1`).
 """
-from typing import Iterable, List
+from typing import Iterable, List, Union
 
 
 def _binary_repr(num: int, width:int) -> str:
@@ -112,17 +112,38 @@ class HilbertCurve:
         # done
         return x
 
-    def distance_from_coordinates(self, x_in: List[int]) -> int:
+    def distance_from_coordinates(self, *cords: Union[Iterable[int], int]) -> int:
         """Return the hilbert distance for a given set of coordinates.
 
         Args:
-            x_in (list): transpose of h
+            *cords : transpose of h
                          (n components with values between 0 and 2**p-1)
+            A single list or tuple is accepted or a set of n individual coordinates, but not both:
+                distance_from_coordinates([x,y,z,...,etc])
+                distance_from_coordinates((x,y,z,...,etc))
+                distance_from_coordinates(x,y,z,...,etc)
 
         Returns:
             h (int): integer distance along hilbert curve
         """
-        x = list(x_in)
+
+        if len(cords) is 0:
+            raise TypeError(
+                'No arguments were given. '
+                'A list, a tuple, or individual coordinates is expected')
+        try:
+            #this is the only reliable way to check if an object is iterable
+            iter(cords[0])
+        except:
+            #when the first object is not iterable we assume that it is a set of individual coordinates
+            x = list(cords)
+        else:
+            #now we check that they haven't passed an iterable and anything else
+            if len(cords) > 1:
+                raise TypeError(
+                    'Only one argument accepted when using a list or tuple')
+            x = list(cords[0])
+
         if len(x) != self.n:
             raise ValueError('x={} must have N={} dimensions'.format(x, self.n))
 
