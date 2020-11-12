@@ -28,7 +28,7 @@ class HilbertCurve:
         self,
         p: Union[int, float],
         n: Union[int, float],
-        n_jobs: int=0,
+        n_procs: int=0,
     ) -> None:
         """Initialize a hilbert curve with,
 
@@ -37,7 +37,7 @@ class HilbertCurve:
                 if float, must satisfy p % 1 = 0
             n (int or float): number of dimensions.
                 if float must satisfy n % 1 = 0
-            n_jobs (int): number of processes to use
+            n_procs (int): number of processes to use
                 0 = dont use multiprocessing
                -1 = use all available threads
                 any other positive integer = number of processes to use
@@ -46,12 +46,11 @@ class HilbertCurve:
             raise TypeError("p is not an integer and can not be converted")
         if (n % 1) != 0:
             raise TypeError("n is not an integer and can not be converted")
-        if (n_jobs % 1) != 0:
-            raise TypeError("n_jobs is not an integer and can not be converted")
+        if (n_procs % 1) != 0:
+            raise TypeError("n_procs is not an integer and can not be converted")
 
         self.p = int(p)
         self.n = int(n)
-        self.n_jobs = n_jobs
 
         if self.p <= 0:
             raise ValueError('p must be > 0 (got p={} as input)'.format(p))
@@ -67,15 +66,16 @@ class HilbertCurve:
         self.max_x = 2**self.p - 1
 
         # set n_procs
-        if self.n_jobs == -1:
+        n_procs = int(n_procs)
+        if n_procs == -1:
             self.n_procs = multiprocessing.cpu_count()
-        elif self.n_jobs == 0:
+        elif n_procs == 0:
             self.n_procs = 0
-        elif self.n_jobs > 0:
-            self.n_procs = self.n_jobs
+        elif n_procs > 0:
+            self.n_procs = self.n_procs
         else:
             raise ValueError(
-                'n_jobs must be >= -1 (got n_jobs={} as input)'.format(n_jobs))
+                'n_procs must be >= -1 (got n_procs={} as input)'.format(n_procs))
 
 
     def _hilbert_integer_to_transpose(self, h: int) -> List[int]:
@@ -272,7 +272,7 @@ class HilbertCurve:
         return distances
 
     def __str__(self):
-        return f"HilbertCruve(p={self.p}, n={self.n})"
+        return f"HilbertCruve(p={self.p}, n={self.n}, n_procs={self.n_procs})"
 
     def __repr__(self):
         return self.__str__()
