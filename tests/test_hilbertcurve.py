@@ -216,5 +216,52 @@ class TestTypeMatch(unittest.TestCase):
         self.assertTrue(isinstance(distances, target_type))
 
 
+class TestInitIntConversion(unittest.TestCase):
+    """Test __init__ conversion of floating point to integers."""
+
+    def test_pt_oh(self):
+        """Assert x.0 goes to x"""
+        n = 3.0
+        n_int = 3
+        p = 5
+        hilbert_curve = HilbertCurve(p, n)
+        self.assertTrue(isinstance(hilbert_curve.n, int))
+        self.assertEqual(hilbert_curve.n, n_int)
+
+        n = 3
+        p_int = 5
+        p = 5.0
+        hilbert_curve = HilbertCurve(p, n)
+        self.assertTrue(isinstance(hilbert_curve.p, int))
+        self.assertEqual(hilbert_curve.p, p_int)
+
+    def test_pt_one(self):
+        """Assert x.1 raises an error"""
+        n = 3
+        p = 5.1
+        with pytest.raises(TypeError):
+            hilbert_curve = HilbertCurve(p, n)
+
+        n = 3.1
+        p = 5
+        with pytest.raises(TypeError):
+            hilbert_curve = HilbertCurve(p, n)
+
+class TestInitBounds(unittest.TestCase):
+    """Test __init__ bounds on n and p."""
+
+    def test_pt_one(self):
+        """Assert x=0 raises an error"""
+        n = 0
+        p = 5
+        with pytest.raises(ValueError):
+            hilbert_curve = HilbertCurve(p, n)
+
+        n = 3
+        p = 0
+        with pytest.raises(ValueError):
+            hilbert_curve = HilbertCurve(p, n)
+
+
 if __name__ == '__main__':
     unittest.main()

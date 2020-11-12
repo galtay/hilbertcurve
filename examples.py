@@ -19,6 +19,7 @@ do_multiprocessing_test = True
 p = 1
 n = 2
 hilbert_curve = HilbertCurve(p, n)
+
 points = [[0,0], [0,1], [1,1], [1,0]]
 dists = hilbert_curve.distances_from_points(points)
 print("simple distances from points")
@@ -27,10 +28,12 @@ for point, dist in zip(points, dists):
     print(f'distance(x={point}, p={p}, n={n}) = {dist}')
 print()
 
+
 # calculate coordinates given distances along a hilbert curve
 p = 1
 n = 2
 hilbert_curve = HilbertCurve(p, n)
+
 dists = list(range(4))
 points = hilbert_curve.points_from_distances(dists)
 print("simple points from distances")
@@ -40,6 +43,7 @@ for point, dist in zip(points, dists):
 print()
 
 
+
 # due to the magic of arbitrarily large integers in
 # Python (https://www.python.org/dev/peps/pep-0237/)
 # these calculations can be done with absurd numbers
@@ -47,6 +51,7 @@ p = 512
 n = 10
 hilbert_curve = HilbertCurve(p, n)
 ii = 123456789101112131415161718192021222324252627282930
+
 points = hilbert_curve.points_from_distances([ii])
 print("arbitrarily large integer points from distances")
 print("="*80)
@@ -92,6 +97,7 @@ if do_multiprocessing_test:
         t2 = time.time()
         print("calculated {} distances in {:.3f}".format(num_points, t2-t1))
         print()
+
 
     print("speed test multi core")
     print("="*80)

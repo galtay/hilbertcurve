@@ -1,6 +1,7 @@
 .. image:: https://travis-ci.com/galtay/hilbertcurve.svg?branch=develop
     :target: https://travis-ci.com/galtay/hilbertcurve
 
+
 ============
 Updates
 ============
@@ -40,6 +41,7 @@ n_procs (int): number of processes to use
    -1 = use all available processes
     any other positive integer = number of processes to use
 ```
+
 
 ============
 Introduction

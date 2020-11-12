@@ -17,6 +17,7 @@ from multiprocessing import Pool
 import numpy as np
 
 
+
 def _binary_repr(num: int, width: int) -> str:
     """Return a binary string representation of `num` zero padded to `width`
     bits."""
@@ -31,6 +32,7 @@ class HilbertCurve:
         n: Union[int, float],
         n_procs: int=0,
     ) -> None:
+      
         """Initialize a hilbert curve with,
 
         Args:
@@ -42,6 +44,7 @@ class HilbertCurve:
                 0 = dont use multiprocessing
                -1 = use all available threads
                 any other positive integer = number of processes to use
+
         """
         if (p % 1) != 0:
             raise TypeError("p is not an integer and can not be converted")
