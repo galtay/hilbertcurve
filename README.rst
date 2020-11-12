@@ -2,21 +2,61 @@
     :target: https://travis-ci.com/galtay/hilbertcurve
 
 ============
+Updates
+============
+
+Version 2.0
+===========
+
+Version 2.0 introduces some breaking changes.
+
+API Changes
+-----------
+
+Previous versions transformed a single distance to a vector or a single vector to a distance.
+
+* `coordinates_from_distance(self, h: int) -> List[int]`
+* `distance_from_coordinates(self, x_in: List[int]) -> int`
+
+In version 2.0 coordinates -> point(s) and we add methods to handle multiple distances or multiple points.
+The `match_type` kwarg forces the output type to match the input type and all functions can handle tuples,
+lists, and ndarrays.
+
+* `point_from_distance(self, distance: int) -> Iterable[int]`
+* `points_from_distances(self, distances: Iterable[int], match_type: bool=False) -> Iterable[Iterable[int]]`
+* `distance_from_point(self, point: Iterable[int]) -> int`
+* `distances_from_points(self, points: Iterable[Iterable[int]], match_type: bool=False) -> Iterable[int]`
+
+
+Multiprocessing
+---------------
+
+The methods that handle multiple distances or multiple points can take advantage of multiple cores.
+You can control this behavior using the `n_procs` kwarg when you create an instance of `HilbertCurve`.
+
+```
+n_procs (int): number of processes to use
+    0 = dont use multiprocessing
+   -1 = use all available processes
+    any other positive integer = number of processes to use
+```
+
+============
 Introduction
 ============
 
 This is a package to convert between one dimensional distance along a
-`Hilbert curve`_, ``h``, and ``N``-dimensional coordinates,
-``(x_0, x_1, ... x_N-1)``.  There are two important parameters,
+`Hilbert curve`_, ``h``, and ``n``-dimensional points,
+``(x_0, x_1, ... x_n-1)``.  There are two important parameters,
 
-* ``N`` -- the number of dimensions (must be > 0)
+* ``n`` -- the number of dimensions (must be > 0)
 * ``p`` -- the number of iterations used in constructing the Hilbert curve (must be > 0)
 
-We consider an ``N``-dimensional `hypercube`_ of side length ``2^p``.
-This hypercube contains ``2^{N p}`` unit hypercubes (``2^p`` along
+We consider an ``n``-dimensional `hypercube`_ of side length ``2^p``.
+This hypercube contains ``2^{n p}`` unit hypercubes (``2^p`` along
 each dimension).  The number of unit hypercubes determine the possible
 discrete distances along the Hilbert curve (indexed from 0 to
-``2^{N p} - 1``).
+``2^{n p} - 1``).
 
 
 ==========
@@ -29,29 +69,31 @@ Install the package with pip,
 
   pip install hilbertcurve
 
-You can calculate coordinates given distances along a hilbert curve,
+You can calculate points given distances along a hilbert curve,
 
 .. code-block:: python
 
   >>> from hilbertcurve.hilbertcurve import HilbertCurve
-  >>> p=1; N=2
-  >>> hilbert_curve = HilbertCurve(p, N)
-  >>> for ii in range(4):
-  >>>     coords = hilbert_curve.coordinates_from_distance(ii)
-  >>>     print(f'coords(h={ii}) = {coords}')
+  >>> p=1; n=2
+  >>> hilbert_curve = HilbertCurve(p, n)
+  >>> distances = list(range(4))
+  >>> points = hilbert_curve.points_from_distances(distances)
+  >>> for point, dist in zip(points, distances):
+  >>>     print(f'point(h={dist}) = {point}')
 
-  coords(h=0) = [0, 0]
-  coords(h=1) = [0, 1]
-  coords(h=2) = [1, 1]
-  coords(h=3) = [1, 0]
+  point(h=0) = [0, 0]
+  point(h=1) = [0, 1]
+  point(h=2) = [1, 1]
+  point(h=3) = [1, 0]
 
-You can also calculate distances along a hilbert curve given coordinates,
+You can also calculate distances along a hilbert curve given points,
 
 .. code-block:: python
 
-  >>> for coords in [[0,0], [0,1], [1,1], [1,0]]:
-  >>>     dist = hilbert_curve.distance_from_coordinates(coords)
-  >>>     print(f'distance(x={coords}) = {dist}')
+  >>> points = [[0,0], [0,1], [1,1], [1,0]]
+  >>> distances = hilbert_curve.distances_from_points(points)
+  >>> for point, dist in zip(points, distances):
+  >>>     print(f'distance(x={point}) = {dist}')
 
   distance(x=[0, 0]) = 0
   distance(x=[0, 1]) = 1
@@ -68,13 +110,13 @@ these calculations can be done with ... well ... arbitrarily large integers!
 
 .. code-block:: python
 
-  >>> p = 512; N = 10
-  >>> hilbert_curve = HilbertCurve(p, N)
+  >>> p = 512; n = 10
+  >>> hilbert_curve = HilbertCurve(p, n)
   >>> ii = 123456789101112131415161718192021222324252627282930
-  >>> coords = hilbert_curve.coordinates_from_distance(ii)
-  >>> print(f'coords = {coords}')
+  >>> point = hilbert_curve.points_from_distances([ii])[0]
+  >>> print(f'point = {point}')
 
-  coords = [121075, 67332, 67326, 108879, 26637, 43346, 23848, 1551, 68130, 84004]
+  point = [121075, 67332, 67326, 108879, 26637, 43346, 23848, 1551, 68130, 84004]
 
 The calculations above represent the 512th iteration of the Hilbert curve in 10 dimensions.
 The maximum value along any coordinate axis is an integer with 155 digits and the maximum
@@ -90,11 +132,11 @@ Visuals
 .. figure:: n2_p3.png
 
    The figure above shows the first three iterations of the Hilbert
-   curve in two (``N=2``) dimensions.  The ``p=1`` iteration is shown
+   curve in two (``n=2``) dimensions.  The ``p=1`` iteration is shown
    in red, ``p=2`` in blue, and ``p=3`` in black.
    For the ``p=3`` iteration, distances, ``h``, along the curve are
-   labeled from 0 to 63 (i.e. from 0 to ``2^{N p}-1``).  This package
-   provides methods to translate between ``N``-dimensional coordinates and one
+   labeled from 0 to 63 (i.e. from 0 to ``2^{n p}-1``).  This package
+   provides methods to translate between ``n``-dimensional points and one
    dimensional distance.  For example, between (``x_0=4, x_1=6``) and
    ``h=36``.  Note that the ``p=1`` and ``p=2`` iterations have been
    scaled and translated to the coordinate system of the ``p=3`` iteration.
@@ -125,7 +167,7 @@ which points out a typo in the source code of the paper.  The Skilling code
 provides two functions ``TransposetoAxes`` and ``AxestoTranspose``.  In this
 case, Transpose refers to a specific packing of the integer that represents
 distance along the Hilbert curve (see below for details) and
-Axes refer to the N-dimensional coordinates.  Below is an excerpt from the
+Axes refer to the n-dimensional coordinates.  Below is an excerpt from the
 documentation of Skilling's code,
 
 ::
