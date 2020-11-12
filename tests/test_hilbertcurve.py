@@ -2,6 +2,7 @@
 
 import pytest
 import unittest
+import numpy as np
 from hilbertcurve.hilbertcurve import HilbertCurve
 
 class TestHilbertIntegerToTranspose(unittest.TestCase):
@@ -125,13 +126,94 @@ class TestInitUnmodified(unittest.TestCase):
 
     def test_base(self):
         """Assert list is unmodified"""
-        n = 2
-        p = 3
+        n = 4
+        p = 8
         hilbert_curve = HilbertCurve(p, n)
-        x = [[1, 1]]
+        x = [[1, 5, 3, 19]]
         x_in = list(x)
         h = hilbert_curve.distances_from_points(x_in)
         self.assertEqual(x, x_in)
+
+class TestTypeMatch(unittest.TestCase):
+    """Test match_type kwarg"""
+
+    def test_points_from_distances_list(self):
+        """Assert list type matching works in points_from_distances"""
+        n = 2
+        p = 3
+        hilbert_curve = HilbertCurve(p, n)
+        dists = list(np.arange(hilbert_curve.max_h + 1))
+        points = hilbert_curve.points_from_distances(dists, match_type=True)
+        target_type = type(dists)
+        self.assertTrue(isinstance(points, target_type))
+        self.assertTrue(
+            all(isinstance(vec, target_type) for vec in points)
+        )
+
+    def test_points_from_distances_tuple(self):
+        """Assert tuple type matching works in points_from_distances"""
+        n = 2
+        p = 3
+        hilbert_curve = HilbertCurve(p, n)
+        dists = tuple(np.arange(hilbert_curve.max_h + 1))
+        points = hilbert_curve.points_from_distances(dists, match_type=True)
+        target_type = type(dists)
+        self.assertTrue(isinstance(points, target_type))
+        self.assertTrue(
+            all(isinstance(vec, target_type) for vec in points)
+        )
+
+    def test_points_from_distances_ndarray(self):
+        """Assert tuple type matching works in points_from_distances"""
+        n = 2
+        p = 3
+        hilbert_curve = HilbertCurve(p, n)
+        dists = np.arange(hilbert_curve.max_h + 1)
+        points = hilbert_curve.points_from_distances(dists, match_type=True)
+        target_type = type(dists)
+        self.assertTrue(isinstance(points, target_type))
+        self.assertTrue(
+            all(isinstance(vec, target_type) for vec in points)
+        )
+
+    def test_distances_from_points_list(self):
+        """Assert list type matching works in distances_from_points"""
+        n = 2
+        p = 3
+        hilbert_curve = HilbertCurve(p, n)
+        points = [
+            [0,0],
+            [7,7],
+        ]
+        distances = hilbert_curve.distances_from_points(points, match_type=True)
+        target_type = type(points)
+        self.assertTrue(isinstance(distances, target_type))
+
+    def test_distances_from_points_tuple(self):
+        """Assert tuple type matching works in distances_from_points"""
+        n = 2
+        p = 3
+        hilbert_curve = HilbertCurve(p, n)
+        points = tuple([
+            tuple([0,0]),
+            tuple([7,7]),
+        ])
+        distances = hilbert_curve.distances_from_points(points, match_type=True)
+        target_type = type(points)
+        self.assertTrue(isinstance(distances, target_type))
+
+    def test_distances_from_points_ndarray(self):
+        """Assert ndarray type matching works in distances_from_points"""
+        n = 2
+        p = 3
+        hilbert_curve = HilbertCurve(p, n)
+        points = np.array([
+            [0,0],
+            [7,7],
+        ])
+        distances = hilbert_curve.distances_from_points(points, match_type=True)
+        target_type = type(points)
+        self.assertTrue(isinstance(distances, target_type))
 
 
 if __name__ == '__main__':

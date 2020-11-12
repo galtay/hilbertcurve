@@ -14,6 +14,7 @@ discrete distances along the Hilbert curve (indexed from :math:`0` to
 from typing import Iterable, List, Union
 import multiprocessing
 from multiprocessing import Pool
+import numpy as np
 
 
 def _binary_repr(num: int, width: int) -> str:
@@ -145,16 +146,21 @@ class HilbertCurve:
         return x
 
 
-    def points_from_distances(self, distances: Iterable[int]) -> Iterable[Iterable[int]]:
+    def points_from_distances(
+        self,
+        distances: Iterable[int],
+        match_type: bool=False,
+    ) -> Iterable[Iterable[int]]:
         """Return points in n-dimensional space given distances along a hilbert curve.
 
         Args:
             distances (iterable of int): iterable of integer distances along hilbert curve
+            match_type (bool): if True, make type(points) = type(distances)
 
         Returns:
             points (iterable of iterable of ints): an iterable of n-dimensional vectors
                 where each vector has lengh n and component values between 0 and 2**p-1.
-                the return type will match the type used for distances.
+                if match_type=False will be list of lists else type(points) = type(distances)
         """
         for ii, dist in enumerate(distances):
             if (dist % 1) != 0:
@@ -179,7 +185,13 @@ class HilbertCurve:
             with Pool(self.n_procs) as p:
                 points = p.map(self.point_from_distance, distances)
 
-        # TODO: magic conversion to type(distances)
+        if match_type:
+            if isinstance(distances, np.ndarray):
+                points = np.array(points, dtype=distances.dtype)
+            else:
+                target_type = type(distances)
+                points = target_type([target_type(vec) for vec in points])
+
         return points
 
 
@@ -226,12 +238,17 @@ class HilbertCurve:
         return distance
 
 
-    def distances_from_points(self, points: Iterable[Iterable[int]]) -> Iterable[int]:
+    def distances_from_points(
+        self,
+        points: Iterable[Iterable[int]],
+        match_type: bool=False,
+    ) -> Iterable[int]:
         """Return distances along the hilbert curve for a given set of points.
 
         Args:
             points (iterable of iterable of ints): an iterable of n-dimensional vectors
                 where each vector has lengh n and component values between 0 and 2**p-1.
+            match_type (bool): if True, make type(distances) = type(points)
 
         Returns:
             distances (iterable of int): iterable of integer distances along hilbert curve
@@ -268,11 +285,19 @@ class HilbertCurve:
             with Pool(self.n_procs) as p:
                 distances = p.map(self.distance_from_point, points)
 
-        # TODO: magic conversion to type(points)
+        if match_type:
+            if isinstance(points, np.ndarray):
+                distances = np.array(distances, dtype=points.dtype)
+            else:
+                target_type = type(points)
+                distances = target_type(distances)
+
         return distances
+
 
     def __str__(self):
         return f"HilbertCruve(p={self.p}, n={self.n}, n_procs={self.n_procs})"
+
 
     def __repr__(self):
         return self.__str__()

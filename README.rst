@@ -2,6 +2,46 @@
     :target: https://travis-ci.com/galtay/hilbertcurve
 
 ============
+Updates
+============
+
+Version 2.0
+===========
+
+Version 2.0 introduces some breaking changes.
+
+API Changes
+-----------
+
+Previous versions transformed a single distance to a vector or a single vector to a distance.
+
+* `coordinates_from_distance(self, h: int) -> List[int]`
+* `distance_from_coordinates(self, x_in: List[int]) -> int`
+
+In version 2.0 coordinates -> point(s) and we add methods to handle multiple distances or multiple points.
+The `match_type` kwarg forces the output type to match the input type and all functions can handle tuples,
+lists, and ndarrays.
+
+* `point_from_distance(self, distance: int) -> Iterable[int]`
+* `points_from_distances(self, distances: Iterable[int], match_type: bool=False) -> Iterable[Iterable[int]]`
+* `distance_from_point(self, point: Iterable[int]) -> int`
+* `distances_from_points(self, points: Iterable[Iterable[int]], match_type: bool=False) -> Iterable[int]`
+
+
+Multiprocessing
+---------------
+
+The methods that handle multiple distances or multiple points can take advantage of multiple cores.
+You can control this behavior using the `n_procs` kwarg when you create an instance of `HilbertCurve`.
+
+```
+n_procs (int): number of processes to use
+    0 = dont use multiprocessing
+   -1 = use all available processes
+    any other positive integer = number of processes to use
+```
+
+============
 Introduction
 ============
 
