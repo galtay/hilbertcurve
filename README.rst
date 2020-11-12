@@ -35,12 +35,13 @@ Multiprocessing
 The methods that handle multiple distances or multiple points can take advantage of multiple cores.
 You can control this behavior using the `n_procs` kwarg when you create an instance of `HilbertCurve`.
 
-```
-n_procs (int): number of processes to use
-    0 = dont use multiprocessing
-   -1 = use all available processes
-    any other positive integer = number of processes to use
-```
+.. code-block:: bash
+
+  n_procs (int): number of processes to use
+      0 = dont use multiprocessing
+     -1 = use all available processes
+      any other positive integer = number of processes to use
+
 
 
 ============
