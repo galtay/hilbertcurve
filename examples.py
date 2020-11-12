@@ -9,21 +9,27 @@ from hilbertcurve.hilbertcurve import HilbertCurve
 # 3        | [1, 0]
 
 
-# calculate distances along a hilbert curve given coordinates
+# calculate distances along a hilbert curve given points
 p = 1
 n = 2
 hilbert_curve = HilbertCurve(p, n)
-for coords in [[0,0], [0,1], [1,1], [1,0]]:
-    dist = hilbert_curve.distance_from_coordinates(coords)
-    print(f'distance(x={coords}) = {dist}')
+points = [[0,0], [0,1], [1,1], [1,0]]
+dists = hilbert_curve.distances_from_points(points)
+print("simple distances from points")
+for point, dist in zip(points, dists):
+    print(f'distance(x={point}, p={p}, n={n}) = {dist}')
+print()
 
 # calculate coordinates given distances along a hilbert curve
 p = 1
 n = 2
 hilbert_curve = HilbertCurve(p, n)
-for ii in range(4):
-    print('coords(h={},p={},n={}) = {}'.format(
-        ii, p, n, hilbert_curve.coordinates_from_distance(ii)))
+dists = list(range(4))
+points = hilbert_curve.points_from_distances(dists)
+print("simple points from distances")
+for point, dist in zip(points, dists):
+    print(f'point(h={dist}, p={p}, n={n}) = {point}')
+print()
 
 
 # due to the magic of arbitrarily large integers in
@@ -33,10 +39,14 @@ p = 512
 n = 10
 hilbert_curve = HilbertCurve(p, n)
 ii = 123456789101112131415161718192021222324252627282930
-coords = hilbert_curve.coordinates_from_distance(ii)
-print('coords(h={},p={},n={}) = {}'.format(ii, p, n, coords))
+points = hilbert_curve.points_from_distances([ii])
+print("arbitrarily large intger points from distances")
+for point, dist in zip(points, dists):
+    print(f'point(h={ii}, p={p}, n={n}) = {point}')
+print()
 
 
-coords = [121075, 67332, 67326, 108879, 26637, 43346, 23848, 1551, 68130, 84004]
-dist = hilbert_curve.distance_from_coordinates(coords)
-print(f'distance(x={coords}) = {dist}')
+point = [121075, 67332, 67326, 108879, 26637, 43346, 23848, 1551, 68130, 84004]
+dist = hilbert_curve.distances_from_points([point])[0]
+print("arbitrarily large intger distances from points")
+print(f'distance(x={point}, p={p}, n={n}) = {dist}')

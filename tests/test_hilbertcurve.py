@@ -62,16 +62,17 @@ class TestReversibility(unittest.TestCase):
     """Test that transpose2axes and axes2transpose are consistent."""
 
     def test_reversibility(self):
-        """Assert coordinates_from_distance and distance_from_coordinates
+        """Assert points_from_distances and distances_from_points
         are inverse operations."""
         n = 3
         p = 5
         hilbert_curve = HilbertCurve(p, n)
         n_h = 2**(n * p)
-        for h in range(n_h):
-            x = hilbert_curve.coordinates_from_distance(h)
-            h_test = hilbert_curve.distance_from_coordinates(x)
-            self.assertEqual(h, h_test)
+        distances = list(range(n_h))
+        coordinates = hilbert_curve.points_from_distances(distances)
+        distances_check = hilbert_curve.distances_from_points(coordinates)
+        for dist, dist_check in zip(distances, distances_check):
+            self.assertEqual(dist, dist_check)
 
 class TestInitIntConversion(unittest.TestCase):
     """Test __init__ conversion of floating point to integers."""
@@ -118,6 +119,19 @@ class TestInitBounds(unittest.TestCase):
         p = 0
         with pytest.raises(ValueError):
             hilbert_curve = HilbertCurve(p, n)
+
+class TestInitUnmodified(unittest.TestCase):
+    """Test distances_from_points does not modify input."""
+
+    def test_base(self):
+        """Assert list is unmodified"""
+        n = 2
+        p = 3
+        hilbert_curve = HilbertCurve(p, n)
+        x = [[1, 1]]
+        x_in = list(x)
+        h = hilbert_curve.distances_from_points(x_in)
+        self.assertEqual(x, x_in)
 
 
 if __name__ == '__main__':
