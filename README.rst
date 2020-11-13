@@ -132,7 +132,7 @@ Visuals
 =======
 
 
-.. figure:: https://github.com/galtay/hilbertcurve/blob/main/n2_p3.png
+.. figure:: https://raw.githubusercontent.com/galtay/hilbertcurve/main/n2_p3.png
 
    The figure above shows the first three iterations of the Hilbert
    curve in two (``n=2``) dimensions.  The ``p=1`` iteration is shown
