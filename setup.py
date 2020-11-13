@@ -52,7 +52,9 @@ setup(
     author_email="gabriel.altay@gmail.com",
     license="MIT",
     packages=find_packages(exclude=["tests*"]),
-    install_requires=[],
+    install_requires=[
+        "numpy",
+    ],
     extras_require={
         "dev": ["sphinx", "sphinx_rtd_theme", "sphinx_autodoc_typehints", "pytest"]
     },
