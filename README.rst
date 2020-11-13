@@ -76,7 +76,7 @@ The ``HilbertCurve`` class has four main public methods.
 * ``distances_from_points(points: Iterable[Iterable[int]], match_type: bool=False) -> Iterable[int]``
 
 Arguments that are type hinted with ``Iterable[int]`` have been tested with lists, tuples, and 1-d numpy arrays.
-Arguments that are type hinted with ``Iterable[Iterable[int]]`` have been tested with list of lists, tuples of tuples, and 2-d numpy arrays with shape (num_points, num_dimensions). The ``match_type`` key word argument forces the output to Iterable to match the type of the input iterable. 
+Arguments that are type hinted with ``Iterable[Iterable[int]]`` have been tested with list of lists, tuples of tuples, and 2-d numpy arrays with shape (num_points, num_dimensions). The ``match_type`` key word argument forces the output iterable to match the type of the input iterable. 
 
 The ``HilbertCurve`` class also contains some useful metadata derived from the inputs ``p`` and ``n``. For instance, you can construct a numpy array of random points on the hilbert curve and calculate their distances in the following way,
 
