@@ -3,48 +3,6 @@
 
 
 ============
-Updates
-============
-
-Version 2.0
-===========
-
-Version 2.0 introduces some breaking changes.
-
-API Changes
------------
-
-Previous versions transformed a single distance to a vector or a single vector to a distance.
-
-* `coordinates_from_distance(self, h: int) -> List[int]`
-* `distance_from_coordinates(self, x_in: List[int]) -> int`
-
-In version 2.0 coordinates -> point(s) and we add methods to handle multiple distances or multiple points.
-The `match_type` kwarg forces the output type to match the input type and all functions can handle tuples,
-lists, and ndarrays.
-
-* `point_from_distance(self, distance: int) -> Iterable[int]`
-* `points_from_distances(self, distances: Iterable[int], match_type: bool=False) -> Iterable[Iterable[int]]`
-* `distance_from_point(self, point: Iterable[int]) -> int`
-* `distances_from_points(self, points: Iterable[Iterable[int]], match_type: bool=False) -> Iterable[int]`
-
-
-Multiprocessing
----------------
-
-The methods that handle multiple distances or multiple points can take advantage of multiple cores.
-You can control this behavior using the `n_procs` kwarg when you create an instance of `HilbertCurve`.
-
-.. code-block:: bash
-
-  n_procs (int): number of processes to use
-      0 = dont use multiprocessing
-     -1 = use all available processes
-      any other positive integer = number of processes to use
-
-
-
-============
 Introduction
 ============
 
@@ -103,6 +61,43 @@ You can also calculate distances along a hilbert curve given points,
   distance(x=[1, 1]) = 2
   distance(x=[1, 0]) = 3
 
+=========================
+Inputs and Outputs
+=========================
+
+The ``HilbertCurve`` class has four main public methods.
+
+* ``point_from_distance(distance: int) -> Iterable[int]``
+* ``points_from_distances(distances: Iterable[int], match_type: bool=False) -> Iterable[Iterable[int]]``
+* ``distance_from_point(point: Iterable[int]) -> int``
+* ``distances_from_points(points: Iterable[Iterable[int]], match_type: bool=False) -> Iterable[int]``
+
+Arguments that are type hinted with ``Iterable[int]`` have been tested with lists, tuples, and 1-d numpy arrays.
+Arguments that are type hinted with ``Iterable[Iterable[int]]`` have been tested with list of lists, tuples of tuples, and 2-d numpy arrays with shape (num_points, num_dimensions). The ``match_type`` key word argument forces the output to Iterable to match the type of the input iterable. 
+
+The ``HilbertCurve`` class also contains some useful metadata derived from the inputs ``p`` and ``n``. For instance, you can construct a numpy array of random points on the hilbert curve and calculate their distances in the following way,
+
+.. code-block:: python
+
+  >>> from hilbertcurve.hilbertcurve import HilbertCurve
+  >>> p=1; n=2
+  >>> hilbert_curve = HilbertCurve(p, n)
+  >>> num_points = 10_000                                                                                              
+  >>> points = np.random.randint(                                                                                   
+          low=0,                                                                                                    
+          high=hilbert_curve.max_x + 1,                                                                                 
+          size=(num_points, hilbert_curve.n)                                                                        
+      )
+  >>> distances = hilbert_curve.distances_from_points(points)
+  >>> type(distances)
+  
+  list
+
+  >>> distances = hilbert_curve.distances_from_points(points, match_type=True)
+  >>> type(distances)
+  
+  numpy.ndarray
+  
 
 =========================
 (Absurdly) Large Integers
@@ -188,6 +183,45 @@ documentation of Skilling's code,
     //            Axes are stored conveniently as b-bit integers.
     // Author:    John Skilling  20 Apr 2001 to 11 Oct 2003
 
+============
+Change Log
+============
+
+Version 2.0
+===========
+
+Version 2.0 introduces some breaking changes.
+
+API Changes
+-----------
+
+Previous versions transformed a single distance to a vector or a single vector to a distance.
+
+* ``coordinates_from_distance(self, h: int) -> List[int]``
+* ``distance_from_coordinates(self, x_in: List[int]) -> int``
+
+In version 2.0 coordinates -> point(s) and we add methods to handle multiple distances or multiple points.
+The `match_type` kwarg forces the output type to match the input type and all functions can handle tuples,
+lists, and ndarrays.
+
+* ``point_from_distance(self, distance: int) -> Iterable[int]``
+* ``points_from_distances(self, distances: Iterable[int], match_type: bool=False) -> Iterable[Iterable[int]]``
+* ``distance_from_point(self, point: Iterable[int]) -> int``
+* ``distances_from_points(self, points: Iterable[Iterable[int]], match_type: bool=False) -> Iterable[int]``
+
+
+Multiprocessing
+---------------
+
+The methods that handle multiple distances or multiple points can take advantage of multiple cores.
+You can control this behavior using the `n_procs` kwarg when you create an instance of `HilbertCurve`.
+
+.. code-block:: bash
+
+  n_procs (int): number of processes to use
+      0 = dont use multiprocessing
+     -1 = use all available processes
+      any other positive integer = number of processes to use
 
 
 .. _Hilbert curve: https://en.wikipedia.org/wiki/Hilbert_curve
