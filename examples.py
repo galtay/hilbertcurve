@@ -86,7 +86,7 @@ if do_multiprocessing_test:
         t1 = time.time()
         points = np.random.randint(
             low=0,
-            high=hilbert_curve.max_x,
+            high=hilbert_curve.max_x + 1,
             size=(num_points, hilbert_curve.n)
         )
         t2 = time.time()
@@ -106,7 +106,7 @@ if do_multiprocessing_test:
         t1 = time.time()
         points = np.random.randint(
             low=0,
-            high=hilbert_curve.max_x,
+            high=hilbert_curve.max_x + 1,
             size=(num_points, hilbert_curve.n)
         )
         t2 = time.time()
