@@ -1,6 +1,9 @@
 .. image:: https://travis-ci.com/galtay/hilbertcurve.svg?branch=develop
     :target: https://travis-ci.com/galtay/hilbertcurve
 
+.. contents:: Table of Contents
+   :depth: 2
+
 
 ============
 Introduction
@@ -98,6 +101,39 @@ The ``HilbertCurve`` class also contains some useful metadata derived from the i
   
   numpy.ndarray
   
+=========================
+Multiprocessing
+=========================
+
+You can now take advantage of multiple processes to speed up calculations by using the ``n_procs`` keyword argument when creating an instance of ``HilbertCurve``. 
+
+.. code-block:: bash
+
+  n_procs (int): number of processes to use
+      0 = dont use multiprocessing
+     -1 = use all available processes
+      any other positive integer = number of processes to use
+
+A value of 0 will completely avoid using the multiprocessing module while a value of 1 will use the multiprocessing module but with a single process. If you want to take advantage of every thread on your computer use the value -1 and if you want something in the middle use a value between 1 and the number of threads on your computer.  A concrete example starting with the code block above is,
+
+.. code-block:: python
+
+  >>> from hilbertcurve.hilbertcurve import HilbertCurve
+  >>> p=1; n=2
+  >>> hilbert_curve = HilbertCurve(p, n, n_procs=-1)
+  >>> num_points = 100_000                                                                                              
+  >>> points = np.random.randint(                                                                                   
+          low=0,                                                                                                    
+          high=hilbert_curve.max_x + 1,                                                                                 
+          size=(num_points, hilbert_curve.n)                                                                        
+      )
+  >>> distances = hilbert_curve.distances_from_points(points)
+
+The following methods are able to use multiple cores. 
+
+* ``points_from_distances(distances: Iterable[int], match_type: bool=False) -> Iterable[Iterable[int]]``
+* ``distances_from_points(points: Iterable[Iterable[int]], match_type: bool=False) -> Iterable[int]``
+
 
 =========================
 (Absurdly) Large Integers
@@ -216,12 +252,6 @@ Multiprocessing
 The methods that handle multiple distances or multiple points can take advantage of multiple cores.
 You can control this behavior using the `n_procs` kwarg when you create an instance of `HilbertCurve`.
 
-.. code-block:: bash
-
-  n_procs (int): number of processes to use
-      0 = dont use multiprocessing
-     -1 = use all available processes
-      any other positive integer = number of processes to use
 
 
 .. _Hilbert curve: https://en.wikipedia.org/wiki/Hilbert_curve
