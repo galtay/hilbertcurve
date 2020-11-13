@@ -63,6 +63,6 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3 :: Only",
     ],
-    keywords="fractal space-filling-curves hilbert hilbert-curve python python3 wikidata parser",
+    keywords="fractal space-filling-curves hilbert hilbert-curve python python3",
     python_requires=">=3.6",
 )
