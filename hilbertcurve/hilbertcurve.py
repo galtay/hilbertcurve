@@ -32,7 +32,7 @@ class HilbertCurve:
         n: Union[int, float],
         n_procs: int=0,
     ) -> None:
-      
+
         """Initialize a hilbert curve with,
 
         Args:
@@ -76,7 +76,7 @@ class HilbertCurve:
         elif n_procs == 0:
             self.n_procs = 0
         elif n_procs > 0:
-            self.n_procs = self.n_procs
+            self.n_procs = n_procs
         else:
             raise ValueError(
                 'n_procs must be >= -1 (got n_procs={} as input)'.format(n_procs))
