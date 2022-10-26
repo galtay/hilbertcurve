@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "Hilberts_Curve_CS/1.0.0": {
+        "runtime": {
+          "Hilberts_Curve_CS.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Hilberts_Curve_CS/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
